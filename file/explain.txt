@@ -1,0 +1,10 @@
+database type mysql
+
+database: 'test'
+
+username: 'root'
+password: 'mysql'
+port: '3306'
+
+
+数据库在 vue-koa-mysql  server-config  中进行配置
