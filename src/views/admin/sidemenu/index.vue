@@ -6,7 +6,7 @@
 			<el-col :span="5">roleName</el-col>
 			<el-col :span="5">权限</el-col>
 			<el-col :span="5"> 时间 </el-col>
-		</el-row>	
+		</el-row>
 
 		<el-collapse accordion>
 
@@ -17,7 +17,7 @@
 				  <el-col :span="5">{{item.menu_name}}</el-col>
 				  <el-col :span="5" class="row-tb-col">{{item.mname}} </el-col>
 				  <el-col :span="5">{{item.role_id}} </el-col>
-				</el-row>	      
+				</el-row>
 		    </template>
 
 		    <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
@@ -25,7 +25,7 @@
 		  </el-collapse-item>
 
 		</el-collapse>
-	
+
 		<el-input placeholder="Filter keyword" v-model="filterText" style="margin-bottom:30px;"></el-input>
 		<el-tree class="filter-tree" :data="data2" :props="defaultProps" default-expand-all :filter-node-method="filterNode" ref="tree2">
 		</el-tree>
@@ -43,120 +43,110 @@
 
 
 <script>
-	let id = 1000;
+  let id = 1000
+  import { mapGetters, mapActions } from 'vuex'
+  export default {
+    created() {
+      // 获取
+      this.FeachList()
+    },
+    mounted() {
+      console.log('mounted mountedmountedmounted')
+    },
+    computed: {
+      ...mapGetters([
+        'roles',
+        'menulist',
+        'rolelist'
+      ])
+    },
+    watch: {
+      filterText(val) {
+        this.$refs.tree2.filter(val)
+      }
+    },
+    data() {
+      const data = [{
+        id: 0,
+        label: 'Root',
+        children: [{
+          id: 1,
+          label: '菜单一',
+          children: []
+        }, {
+          id: 2,
+          label: '菜单二',
+          children: [{
+            id: 5,
+            label: '二级菜单 2-1'
+          }, {
+            id: 6,
+            label: '二级菜单 2-2'
+          }]
+        }, {
+          id: 3,
+          label: '菜单三',
+          children: [{
+            id: 7,
+            label: '二级菜单 3-1'
+          }, {
+            id: 8,
+            label: '二级菜单 3-2'
+          }]
+        }]
+      }]
+      return {
+        data4: JSON.parse(JSON.stringify(data)),
+        data2: data,
+        filterText: '',
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        }
+      }
+    },
 
-	 import { mapGetters,mapActions } from 'vuex'
+    methods: {
+      ...mapActions(['FeachList']),
+      filterNode(value, data) {
+        if (!value) return true
+        return data.label.indexOf(value) !== -1
+      },
+      append(data) {
+        const newChild = {
+          id: id++,
+          label: 'testtest',
+          children: []
+        }
+        if (!data.children) {
+          this.$set(data, 'children', [])
+        }
+        data.children.push(newChild)
+      },
 
-	export default {
+      remove(node, data) {
+        const parent = node.parent
+        const children = parent.data.children || parent.data
+        const index = children.findIndex(d => d.id === data.id)
+        children.splice(index, 1)
+      },
 
-		created(){
-			//获取 
-			this.FeachList();
-	    },
-
-	    mounted(){
-	    	console.log("mounted mountedmountedmounted")
-	    },
-
-	    computed: {
-			...mapGetters([
-                'roles',
-                'menulist',
-                'rolelist'
-            ])
-		},
-
-		watch: {
-			filterText(val) {
-				this.$refs.tree2.filter(val)
-			}
-		},
-
-		data() {
-			const data = [{
-			id:0,
-			label:"Root ",
-			children:[{
-				id: 1,
-				label: '菜单一',
-				children: []
-			}, {
-				id: 2,
-				label: '菜单二',
-				children: [{
-					id: 5,
-					label: '二级菜单 2-1'
-				}, {
-					id: 6,
-					label: '二级菜单 2-2'
-				}]
-			}, {
-				id: 3,
-				label: '菜单三',
-				children: [{
-					id: 7,
-					label: '二级菜单 3-1'
-				}, {
-					id: 8,
-					label: '二级菜单 3-2'
-				}]
-			}] }];
-			
-			return {
-				data4: JSON.parse(JSON.stringify(data)),
-				data2: data,
-				filterText: '',
-				defaultProps: {
-					children: 'children',
-					label: 'label'
-				},
-				
-			}
-		},
-		
-		methods: {
-			...mapActions(['FeachList']),
-			
-			filterNode(value, data) {
-				if(!value) return true
-				return data.label.indexOf(value) !== -1
-			},
-			append(data) {
-				const newChild = {
-					id: id++,
-					label: 'testtest',
-					children: []
-				};
-				if(!data.children) {
-					this.$set(data, 'children', []);
-				}
-				data.children.push(newChild);
-			},
-
-			remove(node, data) {
-				const parent = node.parent;
-				const children = parent.data.children || parent.data;
-				const index = children.findIndex(d => d.id === data.id);
-				children.splice(index, 1);
-			},
-
-			renderContent(h, {
-				node,
-				data,
-				store
-			}) {
-				return(
-					<span class="custom-tree-node">
-	        <span>{node.label}</span>
-	        <span>
-	          <el-button size="mini" type="text" on-click={ () => this.append(data) }>Append</el-button>
-	          <el-button size="mini" type="text" on-click={ () => this.remove(node, data) }>Delete</el-button>
-	        </span>
-	      </span>);
-			}
-		},
-
-	}
+      renderContent(h, {
+        node,
+        data,
+        store
+      }) {
+        return (
+          <span class='custom-tree-node'>
+            <span>{node.label}</span>
+            <span>
+              <el-button size='mini' type='text' on-click={ () => this.append(data) }>Append</el-button>
+              <el-button size='mini' type='text' on-click={ () => this.remove(node, data) }>Delete</el-button>
+            </span>
+          </span>)
+      }
+    }
+  }
 </script>
 
 

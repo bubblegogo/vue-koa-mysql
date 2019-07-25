@@ -1,15 +1,15 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
-  	
+
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
-  
+
     <breadcrumb></breadcrumb>
 
     <!-- 用户头像 -->
     <div class="user-avator"><img src="static/img/img.jpg"></div>
 
     <el-dropdown class="avatar-container" trigger="click">
-      
+
       <span class="el-dropdown-link">
           杜赛赛 <i class="el-icon-caret-bottom"></i>
       </span>
@@ -28,7 +28,7 @@
 
 
     </el-dropdown>
-    
+
   </el-menu>
 </template>
 
@@ -43,9 +43,9 @@ export default {
     Hamburger
   },
   data() {
-      return {
-          message: 2
-      }
+    return {
+      message: 2
+    }
   },
 
   computed: {
@@ -74,7 +74,7 @@ export default {
   border-radius: 0px !important;
   display: flex;
 
-      
+
   .hamburger-container {
     line-height: 58px;
     height: 50px;

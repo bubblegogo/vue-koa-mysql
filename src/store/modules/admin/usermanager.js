@@ -1,36 +1,25 @@
-
-import {feachuserlist} from '@/api/admin'
-
-
+import { feachuserlist } from '@/api/admin'
 const usermanager = {
   state: {
-      userlist:[]
+    userlist: []
   },
   mutations: {
-
-      SET_USER_LIST: (state, userlist) => {
-          state.userlist = userlist
-      }
-
+    SET_USER_LIST: (state, userlist) => {
+      state.userlist = userlist
+    }
   },
 
   actions: {
     FeachUserList({ commit, state }) {
-
       return new Promise((resolve, reject) => {
-
-          feachuserlist().then( (reponse)=>{ 
-
-              commit('SET_USER_LIST',reponse.data.result)
-              resolve()
-          })
-          .catch(error => {
-              reject(error)
-          }) 
+        feachuserlist().then((reponse) => {
+          commit('SET_USER_LIST', reponse.data.result)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
       })
-    
     }
-
   }
 }
 

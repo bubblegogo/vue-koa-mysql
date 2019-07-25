@@ -40,31 +40,31 @@ export const constantRouterMap = [
 ]
 
 export const asyncRouterMap = [
- {
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'example',role:[1]},
+    meta: { title: 'Example', icon: 'example', role: [1] },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table',role:[2]}
+        meta: { title: 'Table', icon: 'table', role: [2] }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree',role:[3] }
+        meta: { title: 'Tree', icon: 'tree', role: [3] }
       }
     ]
   },
   {
     path: '/form',
     component: Layout,
-    meta: { title: 'Form', icon: 'form'},  
+    meta: { title: 'Form', icon: 'form' },
     children: [
       {
         path: 'index',
@@ -74,10 +74,10 @@ export const asyncRouterMap = [
       }
     ]
   },
-   {
+  {
     path: '/admin',
     component: Layout,
-    meta: { title: 'Manager', icon: 'example'},  
+    meta: { title: 'Manager', icon: 'example' },
     children: [
       {
         path: 'menumanager',
@@ -98,9 +98,7 @@ export const asyncRouterMap = [
     component: () => import('@/views/404'),
     hidden: true
   }
-];
-
-
+]
 
 export default new Router({
   // mode: 'history', //后端支持可开

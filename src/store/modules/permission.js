@@ -6,11 +6,8 @@ import { asyncRouterMap, constantRouterMap } from '@/router'
  */
 function hasPermission(roles, route) {
   if (route.meta && route.meta.role) {
-   
-   
     return roles.some(role => route.meta.role.indexOf(Number(role)) >= 0)
-    //return roles.some(role => route.meta.role == role )
-
+    // return roles.some(role => route.meta.role == role )
   } else {
     return true
   }
@@ -23,20 +20,16 @@ function hasPermission(roles, route) {
  */
 function filterAsyncRouter(asyncRouterMap, roles) {
   const accessedRouters = asyncRouterMap.filter(route => {
-
-      if (hasPermission(roles, route)) {
-        if (route.children && route.children.length) {  
-            route.children =  filterAsyncRouter(route.children, roles)
-        }
-        return route
+    if (hasPermission(roles, route)) {
+      if (route.children && route.children.length) {
+        route.children = filterAsyncRouter(route.children, roles)
+      }
+      return route
     }
     return false
-
   })
-
   return accessedRouters
 }
-
 
 const permission = {
   state: {
@@ -51,39 +44,28 @@ const permission = {
   },
 
   actions: {
-
     GenerateRoutes({ commit }, data) {
-
       return new Promise(resolve => {
-        let accessedRouters,roles,user_role;
-        
+        let roles
+        // 从 user.roles 中获取权限 this.state.user.roles
 
-        //从 user.roles 中获取权限 this.state.user.roles
-
-        //方法一 从外层 permission.js 中传入的 data   获取用户角色来进行 动态模块生成
+        // 方法一 从外层 permission.js 中传入的 data   获取用户角色来进行 动态模块生成
         // user_role = data.roles.roles;
 
-        //方法二 从 user GetInfo 中 根绝角色 来获取 模块权限id 来进行动态模块生成
-        user_role = this.state.user.roles;
-
-
-        if(user_role instanceof Array){
-           roles = user_role;
-        }else{
-           roles = user_role.split(",");
+        // 方法二 从 user GetInfo 中 根绝角色 来获取 模块权限id 来进行动态模块生成
+        const user_role = this.state.user.roles
+        if (user_role instanceof Array) {
+          roles = user_role
+        } else {
+          roles = user_role.split(',')
         }
-        
 
-        accessedRouters = filterAsyncRouter(asyncRouterMap, roles);
-        commit('SET_ROUTERS', accessedRouters);
-        resolve();
-
+        const accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
+        commit('SET_ROUTERS', accessedRouters)
+        resolve()
       })
-
-
-    } 
+    }
   }
-
 }
 
 export default permission

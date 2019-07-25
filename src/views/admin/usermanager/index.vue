@@ -7,7 +7,7 @@
           {{scope.row.id}}
         </template>
       </el-table-column>
-      
+
       <el-table-column label="Author"  align="center">
         <template slot-scope="scope">
           <span>{{scope.row.user_name}}</span>
@@ -43,48 +43,44 @@
 </template>
 
 <script>
-import { mapGetters,mapActions } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
-export default {
-  data() {
-    return {
-      list: null,
-      listLoading: false
-    }
-  },
-  filters: {
-    //用户状态过滤器
-    statusFilter(status) {
-      const statusMap = {
-        "0": 'danger',//注销
-        "1": 'success',//成功
-        "2": 'gray' // 关闭
+  export default {
+    data() {
+      return {
+        list: null,
+        listLoading: false
       }
-      return statusMap[status]
+    },
+    filters: {
+      // 用户状态过滤器
+      statusFilter(status) {
+        const statusMap = {
+          '0': 'danger', // 注销
+          '1': 'success', // 成功
+          '2': 'gray' // 关闭
+        }
+        return statusMap[status]
+      },
+
+      // 用户角色过滤
+      rolesFilter(roles) {
+        return roles === 1 ? 'administrator' : 'user'
+      }
+
     },
 
-    //用户角色过滤
-    rolesFilter(roles){
-        return roles === 1 ? "administrator" :"user"
+    created() {
+      // 获取
+      this.FeachUserList()
+    },
+
+    computed: {
+      ...mapGetters(['roles', 'userlist'])
+    },
+
+    methods: {
+      ...mapActions(['FeachUserList'])
     }
-
-  },
-
-  created(){
-    //获取 
-    this.FeachUserList();
-
-  },
-
-  computed: {
-    ...mapGetters([
-              'roles',
-              'userlist'
-          ])
-  },
-
-  methods: {
-    ...mapActions(['FeachUserList']),
   }
-}
 </script>

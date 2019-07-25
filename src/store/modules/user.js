@@ -1,4 +1,4 @@
-import { login, logout, getInfo,getRoleMenu} from '@/api/login'
+import { login, logout, getInfo, getRoleMenu } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -7,7 +7,7 @@ const user = {
     name: '',
     avatar: '',
     roles: [],
-    role_name:''
+    role_name: ''
   },
 
   mutations: {
@@ -25,7 +25,7 @@ const user = {
     },
     SET_ROLE_NAME: (state, role_name) => {
       state.role_name = role_name
-    },
+    }
 
   },
 
@@ -45,38 +45,32 @@ const user = {
       })
     },
 
-    //获取用户信息
+    // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-        	
-          const data = response.data[0]; // 验证返回的roles是否是一个非空数组
+          const data = response.data[0] // 验证返回的roles是否是一个非空数组
 
-          //根据role角色 来
-          if (data.roles != undefined) { 
-            	// get system menu by user role
-              return getRoleMenu(data.roles);  
+          // 根据role角色 来
+          if (data.roles !== undefined) {
+            // get system menu by user role
+            return getRoleMenu(data.roles)
           } else {
-
             reject('getInfo: roles must be a non-null array !')
           }
           commit('SET_NAME', data.user_email)
           resolve(response)
-
         })
-        .then(response=>{
-            commit('SET_ROLES', response.data.menu_id )     
-            commit('SET_ROLE_NAME',response.data.menu_name)
+          .then(response => {
+            commit('SET_ROLES', response.data.menu_id)
+            commit('SET_ROLE_NAME', response.data.menu_name)
             resolve(response)
-        })
-
-        .catch(error => {
-          reject(error)
-        })
+          })
+          .catch(error => {
+            reject(error)
+          })
       })
     },
-    
-
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {

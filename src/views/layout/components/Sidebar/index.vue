@@ -15,27 +15,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import SidebarItem from './SidebarItem'
+  import { mapGetters } from 'vuex'
+  import SidebarItem from './SidebarItem'
 
-export default {
-  components: { SidebarItem },
-  computed: {
-    ...mapGetters([
-      'sidebar'
-    ]),
-    routes() {
-    
-      //路由根据权限变换
-      return this.$store.state.permission.routers
+  export default {
+    components: { SidebarItem },
+    computed: {
+      ...mapGetters([
+        'sidebar'
+      ]),
+      routes() {
+        // 路由根据权限变换
+        return this.$store.state.permission.routers
 
-       //固定路由权限
-      //return  this.$router.options.routes
-    },
-    isCollapse() {
-
-      return !this.sidebar.opened
+        // 固定路由权限
+        // return  this.$router.options.routes
+      },
+      isCollapse() {
+        return !this.sidebar.opened
+      }
     }
   }
-}
 </script>

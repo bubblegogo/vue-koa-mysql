@@ -4,26 +4,27 @@ import store from '../store'
 import { getToken } from '@/utils/auth'
 
 // 创建axios实例
-/*const service = axios.create({
+/*  const service = axios.create({
   baseURL: process.env.BASE_API,
-  timeout: 5000 
+  timeout: 5000
 })
 */
 
-//设置全局axios默认值
-axios.defaults.timeout = 5000; //5000的超时验证
-axios.defaults.baseURL = process.env.BASE_API;
-//axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+// 设置全局axios默认值 5000的超时验证
+axios.defaults.timeout = 5000
+axios.defaults.baseURL = process.env.BASE_API
+// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
-//创建一个axios实例
-let service = axios.create();
-//service.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-//axios.interceptors.request.use = service.interceptors.request.use;
+// 创建一个axios实例
+const service = axios.create()
+// service.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+// axios.interceptors.request.use = service.interceptors.request.use;
 
 // request拦截器
 service.interceptors.request.use(config => {
   if (store.getters.token) {
-    config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    // 让每个请求携带自定义token 请根据实际情况自行修改
+    config.headers['X-Token'] = getToken()
   }
   return config
 }, error => {
@@ -53,7 +54,7 @@ service.interceptors.response.use(
           type: 'warning'
         }).then(() => {
           store.dispatch('FedLogOut').then(() => {
-            location.reload();// 为了重新实例化vue-router对象 避免bug
+            location.reload() // 为了重新实例化vue-router对象 避免bug
           })
         })
       }

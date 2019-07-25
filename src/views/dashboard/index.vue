@@ -37,7 +37,7 @@
 
                             HTML
                             <el-progress :percentage="99" color="#f56c6c"></el-progress>
-                            
+
                         </el-card>
                     </el-col>
                 </el-row>
@@ -109,47 +109,45 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
-export default {
+  import { mapGetters } from 'vuex'
+  export default {
     name: 'dashboard',
     data() {
-        return {
-            todoList: [
-                {
-                    title: '今天要修复100个bug',
-                    status: false,
-                },
-                {
-                    title: '今天要修复100个bug',
-                    status: false,
-                },
-                {
-                    title: '今天要写100行代码加几个bug吧',
-                    status: false,
-                }, {
-                    title: '今天要修复100个bug',
-                    status: false,
-                },
-                {
-                    title: '今天要修复100个bug',
-                    status: true,
-                },
-                {
-                    title: '今天要写100行代码加几个bug吧',
-                    status: true,
-                }
-            ]
-        }
+      return {
+        todoList: [
+          {
+            title: '今天要修复100个bug',
+            status: false
+          },
+          {
+            title: '今天要修复100个bug',
+            status: false
+          },
+          {
+            title: '今天要写100行代码加几个bug吧',
+            status: false
+          }, {
+            title: '今天要修复100个bug',
+            status: false
+          },
+          {
+            title: '今天要修复100个bug',
+            status: true
+          },
+          {
+            title: '今天要写100行代码加几个bug吧',
+            status: true
+          }
+        ]
+      }
     },
-  computed: {
-    ...mapGetters([
-      'name',
-      'roles'
-    ]),
-
+    computed: {
+      ...mapGetters([
+        'name',
+        'roles'
+      ])
+    }
   }
-}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
