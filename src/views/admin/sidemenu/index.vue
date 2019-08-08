@@ -10,7 +10,7 @@
 
 		<el-collapse accordion>
 
-		  <el-collapse-item v-for="item in rolelist">
+		  <el-collapse-item :key="index" v-for="(item,index) in rolelist">
 		    <template slot="title">
 		    	<el-row :gutter="10">
 				  <el-col :span="5">{{item.role_id}}</el-col>

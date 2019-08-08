@@ -7,11 +7,28 @@ export function feachlist() {
     method: 'post'
   })
 }
-
+// feach user list
 export function feachuserlist() {
   return request({
     url: '/user/get_user_list',
     method: 'post'
   })
 }
-
+// get a single user msg
+export function feachuserById(id) {
+  return request({
+    url: '/user/get_info_byid',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+// delete user by user id
+export function deleteUserById(params) {
+  return request({
+    url: '/user/delete_byid',
+    method: 'post',
+    data: params
+  })
+}

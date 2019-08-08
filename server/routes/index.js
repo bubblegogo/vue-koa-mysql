@@ -7,19 +7,19 @@ const Type = require('../controllers/type.js');
 const Article = require('../controllers/article.js');
 const Front = require('../controllers/front.js')
 
-//配置  
-var storage = multer.diskStorage({  
-    //文件保存路径  
-    destination: function (req, file, cb) {  
-      cb(null, 'uploads/')  
-    },  
-    //修改文件名称  
-    filename: function (req, file, cb) {  
-      var fileFormat = (file.originalname).split(".");  
-      cb(null,Date.now() + "." + fileFormat[fileFormat.length - 1]);  
-    }  
-  })  
-  //加载配置  
+//配置
+var storage = multer.diskStorage({
+    //文件保存路径
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+    },
+    //修改文件名称
+    filename: function (req, file, cb) {
+      var fileFormat = (file.originalname).split(".");
+      cb(null,Date.now() + "." + fileFormat[fileFormat.length - 1]);
+    }
+  })
+  //加载配置
 var upload = multer({ storage: storage });
 
 //后台接口
@@ -29,16 +29,27 @@ router.post('/login',User.loginPost);
 //获取单个用户信息
 router.post('/user/get_info',User.getInfo)
 
+//根据ID 获取用户信息
+router.post('/user/get_info_byid',User.getInfoById)
+
 //获取单个用户角色所对应的权限
 router.post('/user/get_role_menu',User.getRoleMenu)
-
-
 
 //获取用户列表
 router.post('/user/get_user_list',User.getUserList)
 
+
+// 删除用户
+router.post('/user/delete_byid',User.deleteUser)
+
 //退出
 router.post('/user/logout',User.getLogOut)
+
+
+//文章列表
+router.post('/article/get_article_list',checkToken,Article.getArticleList)
+//查找文章
+router.post('/article/get_article',checkToken,Article.getArticle)
 
 
 
@@ -52,10 +63,8 @@ router.post('/del_type',checkToken,Type.delectTypeById);
 router.post('/edit_type',checkToken,Type.editTypeById);
 //添加文章
 router.post('/add_article',checkToken,Article.createArticle)
-//文章列表
-router.post('/get_article_list',checkToken,Article.getArticleList)
-//查找文章
-router.post('/get_article',checkToken,Article.getArticle)
+
+
 //编辑文章
 router.post('/edit_article',checkToken,Article.editArticle)
 //文章状态
@@ -63,12 +72,12 @@ router.post('/update_state',checkToken,Article.updateState)
 //文章删除
 router.post('/del_article',checkToken,Article.delArticleById)
 //缩略图上传
-router.post('/upload', upload.single('file'), async (ctx, next) => {  
+router.post('/upload', upload.single('file'), async (ctx, next) => {
     console.log( ctx );
-    ctx.body = {  
-      filename: 'http://'+ctx.host+'/'+ctx.req.file.filename//返回文件名  
-    }  
-  }) 
+    ctx.body = {
+      filename: 'http://'+ctx.host+'/'+ctx.req.file.filename//返回文件名
+    }
+  })
 //推荐
 router.post('/set_recommend',checkToken,Article.setRecommend)
 //设置轮播

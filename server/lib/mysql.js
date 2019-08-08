@@ -10,7 +10,7 @@ var pool  = mysql.createPool({
   });
 
 let query = function( sql, values ) {
-    
+
       return new Promise(( resolve, reject ) => {
         pool.getConnection(function(err, connection) {
           if (err) {
@@ -26,11 +26,11 @@ let query = function( sql, values ) {
               //回收pool
               connection.release()
             })
-            
+
           }
         })
       })
-    
+
     }
     //登录查询用户
 let dologin = function(username,password){
@@ -43,13 +43,23 @@ let getuserlist = function(){
     return query(_sql)
 }
 
+let upuserstatus = function(id,status){
+  let _sql =`update user set status = "${status}" where id = "${id}" `;
+  return query(_sql)
+}
+
 //获取用户信息
 let getinfo = function(value){
    	let _sql = `select * from user where token = ?`;
     return query(_sql,value)
 }
+//根据用户id获取用户信息
+let getinfoById = function(value){
+  let _sql = `select * from user where id = ?`;
+  return query(_sql,value)
+}
 
-//根据角色来获取列表菜单 
+//根据角色来获取列表菜单
 let getrolemenu = function(value){
    	let _sql = `select * from role_menu where role_id = "${value}"`;
     return query(_sql)
@@ -64,7 +74,7 @@ let getallrolemenu =function(){
 
 //根据menudId 获取menu 或者 获取所有 menu
 let getMenuNameById = function(value){
-    let _sql = '' 
+    let _sql = ''
 
     if(value){
         _sql =  `select * from menu where menu_id in (${value})`;
@@ -84,6 +94,21 @@ let updateUserToken = function(value){
 let getlogout= function(value){
   let _sql = `update user set token = " " where token = "${value}";`
   return query(_sql)
+}
+
+
+/********* article list api *********/
+
+//获取所有文章
+let selectAllArticle = function(value){
+  let _sql = `select * from article`;
+  return query(_sql)
+}
+
+//根据id查找文章
+let selectArticleById = function(id){
+  let _sql = `select * from article where id = "${id}"`;
+  return query(_sql);
 }
 
 
@@ -108,11 +133,7 @@ let selectTypeModelByType = function(value){
   return query(_sql)
 }
 
-//查询所有的栏目
-let selectTypeAllModel = function(){
-  let _sql = `select * from types`;
-  return query(_sql)
-}
+
 //删除栏目根据栏目id
 let delTypeByIdModel = function(id){
   let _sql = `delete from types where id = "${id}"`;
@@ -122,17 +143,9 @@ let editTypeByIdModel = function(value){
   let _sql = "update types set type_name = ?,time = ? where id = ?";
   return query(_sql,value)
 }
-//获取所有文章
-let selectAllArticleModel = function(value){
-    let _sql = `select * from article`;
-    return query(_sql)
-}
 
-//根据id查找文章
-let selectArticleByIdModel = function(id){
-  let _sql = `select * from article where id = "${id}"`;
-  return query(_sql);
-}
+
+
 
 //文章编辑
 let updateArticleModel = function(value){
@@ -173,7 +186,7 @@ let selectArticleByTypeIdModel = function(tid,page){
 let selectArticleByTypeHotModel = function(id){
   let _sql = '';
   if(id){
-    _sql = `SELECT * FROM article where typeid = "${id}" ORDER BY consult DESC limit 0,4`    
+    _sql = `SELECT * FROM article where typeid = "${id}" ORDER BY consult DESC limit 0,4`
   }else{
      _sql = `SELECT * FROM article  ORDER BY consult DESC limit 0,4`
   }
@@ -184,9 +197,9 @@ let selectArticleByTypeHotModel = function(id){
 let getRecommendModel = function(id){
   let _sql = '';
   if(id){
-     _sql = `SELECT * FROM article where typeid = "${id}" and recommend = 1 ORDER BY recommend DESC limit 0,1`    
+     _sql = `SELECT * FROM article where typeid = "${id}" and recommend = 1 ORDER BY recommend DESC limit 0,1`
   }else{
-    _sql = `SELECT * FROM article where  recommend = 1 ORDER BY recommend DESC limit 0,1` 
+    _sql = `SELECT * FROM article where  recommend = 1 ORDER BY recommend DESC limit 0,1`
   }
   return query(_sql)
 }
@@ -204,7 +217,7 @@ let selectSliderModel = function(){
 //首页列表(不包括 热门和轮播 )
 let homeListModel = function(page){
   let _sql = `SELECT * FROM article where is_slider = 0 and recommend = 0 ORDER BY time DESC limit ${(page-1)*4},4;`
-  return query(_sql) 
+  return query(_sql)
 }
 
 //首页类型 (3条输出)
@@ -238,23 +251,27 @@ let searchArticleListModel = function(title,page){
 module.exports = {
     dologin,
     getinfo,
+    getinfoById,
+    upuserstatus,
     getrolemenu,
     getallrolemenu,
     getMenuNameById,
     getuserlist,
     updateUserToken,
     getlogout,
-    
-    
+
+    selectAllArticle,
+    selectArticleById,
+
     /*addArticlModel,
     addTypeModel,
     selectTypeModelByType,
-    selectTypeAllModel,
+
     delTypeByIdModel,
     editTypeByIdModel,
     selectTitleById,
-    selectAllArticleModel,
-    selectArticleByIdModel,
+
+
     updateArticleModel,
     updateArticleStateModel,
     delArticleByIdModel,

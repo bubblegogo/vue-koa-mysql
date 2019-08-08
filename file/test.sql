@@ -211,3 +211,4 @@ ALTER TABLE `upload` AUTO_INCREMENT=1;
 -- Auto increment value for `user`
 -- ----------------------------
 ALTER TABLE `user` AUTO_INCREMENT=4;
+

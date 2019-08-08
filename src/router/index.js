@@ -41,6 +41,31 @@ export const constantRouterMap = [
 
 export const asyncRouterMap = [
   {
+    path: '/article',
+    component: Layout,
+    redirect: '/article/list',
+    name: 'Article',
+    meta: { title: 'Article', icon: 'example', role: [1] },
+    children: [
+      {
+        path: 'list',
+        name: 'ArticleList',
+        component: () => import('@/views/article/index'),
+        meta: { title: 'ArticleList', icon: 'table', role: [2] }
+      },
+      {
+        /* 这种写法 自动将 参数转换成 组件属性
+        path: 'edituser:id',
+        props:true,*/
+        path: 'editArticle',
+        name: 'EditArticle',
+        component: () => import('@/views/article/editarticle'),
+        props: (route) => ({ id: route.query.id }), // 通过函数把值进行转换成组件属性
+        hidden: true
+      }
+    ]
+  },
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
@@ -90,6 +115,16 @@ export const asyncRouterMap = [
         name: 'User',
         component: () => import('@/views/admin/usermanager/index'),
         meta: { title: 'User', icon: 'example' }
+      },
+      {
+        /* 这种写法 自动将 参数转换成 组件属性
+        path: 'edituser:id',
+        props:true,*/
+        path: 'edituser',
+        name: 'EditUser',
+        component: () => import('@/views/admin/usermanager/edituser'),
+        props: (route) => ({ id: route.query.id }), // 通过函数把值进行转换成组件属性
+        hidden: true
       }
     ]
   },

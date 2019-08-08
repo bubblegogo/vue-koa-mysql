@@ -5,7 +5,7 @@ class ArticleController{
     static async createArticle(ctx){
         //es6 解构
         //这里解构需要和 ctx.request.body 的对象属性相同
-        const { title,content,tags,type,thumb } = ctx.request.body;    
+        const { title,content,tags,type,thumb } = ctx.request.body;
         let time = moment().format('YYYY-MM-DD HH:mm')
         if(!title){
             ctx.jsonReturn({
@@ -82,12 +82,12 @@ class ArticleController{
                 ctx.jsonReturn({
                     code:1,
                     message:'添加失败,服务器异常'
-                }) 
-            })  
-                     
+                })
+            })
+
     }
     static async getArticleList(ctx){
-        let resList = await Model.selectAllArticleModel()
+         await Model.selectAllArticle()
             .then(res=>{
                 var resList = JSON.parse(JSON.stringify(res))
                 if(resList.length == 0){
@@ -98,11 +98,25 @@ class ArticleController{
                         },
                         message:'err'
                     })
+                }else{
+                  ctx.jsonReturn({
+                    code:200,
+                    data:{
+                      list:resList
+                    },
+                    message:'ok'
+                  })
                 }
-                return resList;
+
             })
-        
-            await Model.selectTypeAllModel()
+           .catch(err=>{
+             ctx.jsonReturn({
+               code:1,
+               message:'添加失败,服务器异常'
+             })
+           })
+
+           /* await Model.selectTypeAllModel()
                 .then(typeListres=>{
                     var typeList = JSON.parse(JSON.stringify(typeListres))
                     let newList = resList.map(function(item,index){
@@ -113,10 +127,10 @@ class ArticleController{
                             if(item['is_public'] == 1){
                                 item['public_state'] = '发布'
                             }else{
-                                item['public_state'] = '未发布' 
+                                item['public_state'] = '未发布'
                             }
                         })
-                        return item;                       
+                        return item;
                     })
                     ctx.jsonReturn({
                         code:2,
@@ -133,11 +147,11 @@ class ArticleController{
                         },
                         message:'err'
                     })
-                })
-        
+                })*/
+
         }
     static async getArticle(ctx){
-        const{ id } = ctx.request.body;    
+        const{ id } = ctx.request.body;
         console.log( id );
         if(!id || isNaN(id)){
             ctx.jsonReturn({
@@ -145,13 +159,13 @@ class ArticleController{
                 message:'id err'
             })
         }
-        await Model.selectArticleByIdModel(id)
+        await Model.selectArticleById(id)
             .then(res=>{
                 var resList = JSON.parse(JSON.stringify(res))
                 if(resList.length){
                     ctx.jsonReturn({
-                        code:2,
-                        data:resList[0],
+                        code:200,
+                        data:resList,
                         message:'ok'
                     })
                 }else{
@@ -160,7 +174,7 @@ class ArticleController{
                         message:'err'
                     })
                 }
-               
+
             }).catch(err=>{
                 ctx.jsonReturn({
                     code:1,
@@ -171,7 +185,7 @@ class ArticleController{
     static async editArticle(ctx){
         //es6 解构
         //这里解构需要和 ctx.request.body 的对象属性相同
-        const { title,content,tags,type,id,thumb } = ctx.request.body;    
+        const { title,content,tags,type,id,thumb } = ctx.request.body;
         let time = moment().format('YYYY-MM-DD HH:mm')
         if(!title){
             ctx.jsonReturn({
@@ -248,8 +262,8 @@ class ArticleController{
             ctx.jsonReturn({
                 code:1,
                 message:'修改失败,服务器异常'
-            }) 
-        })  
+            })
+        })
 
 
     }

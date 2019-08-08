@@ -67,6 +67,54 @@ class UserController{
                 }
             })
     }
+    // 根据用户ID获取用户详情
+    static async getInfoById(ctx){
+      const { id } = ctx.request.body;
+      await Model.getinfoById(id)
+        .then(res=>{
+          var resList = JSON.parse(JSON.stringify(res))
+          if(resList.length == 0){
+            ctx.jsonReturn({
+              code:1,
+              data:{
+                list:[]
+              },
+              message:'err'
+            })
+          }else{
+            ctx.jsonReturn({
+              code:200,
+              data:resList,
+            });
+          }
+        })
+    }
+
+  // 根据用户ID 来更改用户状态
+  static async deleteUser(ctx){
+    const { id,status } = ctx.request.body;
+    await Model.upuserstatus(id,status)
+      .then(res=>{
+        if(res){
+          ctx.jsonReturn({
+            code:200,
+            message:'操作成功'
+          })
+        }else{
+          ctx.jsonReturn({
+            code:1,
+            message:'操作失败'
+          })
+        }
+      }).catch(err=>{
+        ctx.jsonReturn({
+          code:1,
+          message:'操作失败:'+err
+        })
+      })
+  }
+
+
 
     /**
     * 根据roleid 返回对应的 menulist rolelist
@@ -161,7 +209,7 @@ class UserController{
                 	ctx.jsonReturn({
                         code:200,
                         data:{
-                        	result:resList
+                        	list:resList
                         },
                     });
                 }
