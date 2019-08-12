@@ -14,11 +14,10 @@
           杜赛赛 <i class="el-icon-caret-bottom"></i>
       </span>
 
-
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
         <router-link class="inlineBlock" to="/">
           <el-dropdown-item>
-            Home
+            {{ $t('nav.home') }}
           </el-dropdown-item>
         </router-link>
         <el-dropdown-item divided>
@@ -26,7 +25,16 @@
         </el-dropdown-item>
       </el-dropdown-menu>
 
+    </el-dropdown>
 
+    <el-dropdown class="language-container" trigger="click">
+      <span class="el-dropdown-link">
+        {{ $t('nav.lang') }}<i class="el-icon-caret-bottom"></i>
+      </span>
+      <el-dropdown-menu class="language-container" slot="dropdown">
+        <el-dropdown-item  @click.native="changeLanguage('zh')" :disabled="$i18n.locale == 'zh'">{{ $t('nav.zh') }}</el-dropdown-item>
+        <el-dropdown-item divided @click.native="changeLanguage('en')" :disabled="$i18n.locale == 'en'">{{ $t('nav.en') }}</el-dropdown-item>
+      </el-dropdown-menu>
     </el-dropdown>
 
   </el-menu>
@@ -47,7 +55,6 @@ export default {
       message: 2
     }
   },
-
   computed: {
     ...mapGetters([
       'sidebar',
@@ -62,6 +69,23 @@ export default {
       this.$store.dispatch('LogOut').then(() => {
         location.reload() // 为了重新实例化vue-router对象 避免bug
       })
+    },
+    changeLanguage(lang) {
+      if (lang === 'zh') {
+        localStorage.setItem('locale', 'zh')
+        this.$i18n.locale = localStorage.getItem('locale')
+        this.$message({
+          message: '切换为中文',
+          type: 'success'
+        })
+      } else if (lang === 'en') {
+        localStorage.setItem('locale', 'en')
+        this.$i18n.locale = localStorage.getItem('locale')
+        this.$message({
+          message: 'Switch to English!',
+          type: 'success'
+        })
+      }
     }
   }
 }
@@ -112,6 +136,24 @@ export default {
         height: 40px;
         border-radius: 10px;
       }
+      .el-icon-caret-bottom {
+        position: absolute;
+        right: -20px;
+        top: 25px;
+        font-size: 12px;
+      }
+    }
+  }
+  .language-container{
+    height: 50px;
+    display: inline-block;
+    position: absolute;
+    right: 200px;
+    .avatar-wrapper {
+      cursor: pointer;
+      margin-top: 5px;
+      position: relative;
+
       .el-icon-caret-bottom {
         position: absolute;
         right: -20px;

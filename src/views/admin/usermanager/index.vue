@@ -2,7 +2,7 @@
   <div class="app-container">
 
     <div style="float: right;margin-bottom: .5em;">
-      <el-button @click="HandleClick(0)" >用户新增</el-button>
+      <el-button @click="HandleClick(0)" v-text="$t('user.adduser')"></el-button>
     </div>
 
     <el-table :data="userlist" v-loading.body="listLoading" element-loading-text="Loading"  fit highlight-current-row>
@@ -12,18 +12,18 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Author"  align="center">
+      <el-table-column :label="$t('user.name')" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.user_name}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Email" align="center">
+      <el-table-column :label="$t('user.email')" align="center">
         <template slot-scope="scope">
           {{scope.row.user_email}}
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="Roles"  align="center">
+      <el-table-column class-name="status-col" :label="$t('user.roles')"  align="center">
         <template slot-scope="scope">
           {{scope.row.roles | rolesFilter}}
         </template>
@@ -36,16 +36,16 @@
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="Status"  align="center">
+      <el-table-column class-name="status-col" :label="$t('user.status')"  align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status | statusFilter }}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" align="center" label="操作" width="150">
+      <el-table-column fixed="right" align="center" :label="$t('operation.operation')" width="150">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="HandleClick(scope.row.id)">编辑</el-button>
-          <el-button type="text" size="small" @click="HandleDel(scope.row.id)">删除</el-button>
+          <el-button type="text" size="small" @click="HandleClick(scope.row.id)">{{$t('operation.edit')}}</el-button>
+          <el-button type="text" size="small" @click="HandleDel(scope.row.id)">{{$t('operation.del')}}</el-button>
         </template>
       </el-table-column>
 

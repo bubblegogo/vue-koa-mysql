@@ -12,7 +12,7 @@
         </el-select>
         <el-input placeholder="请输入内容" v-model="inputval"></el-input>
       </div>
-      <el-button @click="HandleClick(0)" >文章新增</el-button>
+      <el-button @click="HandleClick(0)" >{{$t('article.addarticle')}}</el-button>
 
     </div>
     <el-table :data="articlelist" v-loading.body="listLoading" element-loading-text="Loading"  fit highlight-current-row>
@@ -22,46 +22,46 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="文章标题"  align="center">
+      <el-table-column :label="$t('article.title')"  align="center">
         <template slot-scope="scope">
           <span>{{scope.row.title}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="文章作者"  align="center">
+      <el-table-column  :label="$t('article.user')" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.user_id}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="文章类型" align="center">
+      <el-table-column :label="$t('article.type')" align="center">
         <template slot-scope="scope">
           {{scope.row.typeid}}
         </template>
       </el-table-column>
 
-      <el-table-column label="文章内容" align="center">
+      <el-table-column :label="$t('article.content')" align="center">
         <template slot-scope="scope">
           {{scope.row.content | hiddenContent }}
         </template>
       </el-table-column>
 
-      <el-table-column align="center"  label="编写时间" >
+      <el-table-column align="center" :label="$t('article.createtime')">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span>{{scope.row.create_time}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column  align="center" label="文章描述" >
+      <el-table-column  align="center" :label="$t('article.description')" >
         <template slot-scope="scope">
           {{scope.row.description}}
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" align="center" label="操作" width="150">
+      <el-table-column fixed="right" align="center" :label="$t('operation.operation')" width="150">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="HandleClick(scope.row.id)">编辑</el-button>
-          <el-button type="text" size="small" @click="HandleDel(scope.row.id)">删除</el-button>
+          <el-button type="text" size="small" @click="HandleClick(scope.row.id)">{{$t('operation.edit')}}</el-button>
+          <el-button type="text" size="small" @click="HandleDel(scope.row.id)">{{$t('operation.del')}}</el-button>
         </template>
       </el-table-column>
 
