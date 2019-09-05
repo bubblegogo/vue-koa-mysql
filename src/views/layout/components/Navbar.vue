@@ -2,41 +2,41 @@
   <el-menu class="navbar" mode="horizontal">
 
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
+    <breadcrumb style="width: 100%;"></breadcrumb>
 
-    <breadcrumb></breadcrumb>
+    <div style="width: 100%">
+      <ul  class="nav-ul" style="list-style: none;">
+        <li>
+          <el-dropdown :class="['language-container',isActive?'active':'']" @visible-change="lanVisibleChange"  trigger="click" >
+            <span class="el-dropdown-link">
+              {{this.$i18n.locale == "zh" ? "中文":"英文"}} <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item  @click.native="changeLanguage('zh')" :disabled="$i18n.locale == 'zh'">{{ $t('nav.zh') }}</el-dropdown-item>
+              <el-dropdown-item divided @click.native="changeLanguage('en')" :disabled="$i18n.locale == 'en'">{{ $t('nav.en') }}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </li>
 
-    <!-- 用户头像 -->
-    <div class="user-avator"><img src="static/img/img.jpg"></div>
-
-    <el-dropdown class="avatar-container" trigger="click">
-
-      <span class="el-dropdown-link">
-          杜赛赛 <i class="el-icon-caret-bottom"></i>
-      </span>
-
-      <el-dropdown-menu class="user-dropdown" slot="dropdown">
-        <router-link class="inlineBlock" to="/">
-          <el-dropdown-item>
-            {{ $t('nav.home') }}
-          </el-dropdown-item>
-        </router-link>
-        <el-dropdown-item divided>
-          <span @click="logout" style="display:block;">LogOut</span>
-        </el-dropdown-item>
-      </el-dropdown-menu>
-
-    </el-dropdown>
-
-    <el-dropdown class="language-container" trigger="click">
-      <span class="el-dropdown-link">
-        {{ $t('nav.lang') }}<i class="el-icon-caret-bottom"></i>
-      </span>
-      <el-dropdown-menu class="language-container" slot="dropdown">
-        <el-dropdown-item  @click.native="changeLanguage('zh')" :disabled="$i18n.locale == 'zh'">{{ $t('nav.zh') }}</el-dropdown-item>
-        <el-dropdown-item divided @click.native="changeLanguage('en')" :disabled="$i18n.locale == 'en'">{{ $t('nav.en') }}</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-
+        <li>
+        <!-- 用户头像 -->
+          <div class="user-avator"><img src="static/img/img.jpg"></div>
+          <el-dropdown :class="['avatar-container',avaActive?'active':'']" @visible-change="avaVisibleChange"  trigger="click">
+            <span class="el-dropdown-link">
+              {{this.$store.state.user.name}} <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu  slot="dropdown">
+              <router-link class="inlineBlock" to="/">
+                <el-dropdown-item> {{ $t('nav.home') }} </el-dropdown-item>
+              </router-link>
+              <el-dropdown-item divided>
+                <span @click="logout" style="display:block;">LogOut</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </li>
+      </ul>
+    </div>
   </el-menu>
 </template>
 
@@ -52,7 +52,10 @@ export default {
   },
   data() {
     return {
-      message: 2
+      message: 2,
+      isActive: false,
+      avaActive: false
+
     }
   },
   computed: {
@@ -86,6 +89,12 @@ export default {
           type: 'success'
         })
       }
+    },
+    lanVisibleChange(v) {
+      this.isActive = v;
+    },
+    avaVisibleChange(v) {
+      this.avaActive = v;
     }
   }
 }
@@ -98,67 +107,54 @@ export default {
   border-radius: 0px !important;
   display: flex;
 
-
   .hamburger-container {
     line-height: 58px;
     height: 50px;
     float: left;
     padding: 0 10px;
   }
-  .screenfull {
-    position: absolute;
-    right: 90px;
-    top: 16px;
-    color: red;
-  }
-   .user-avator{
-      position: absolute;
-      right: 100px;
-    }
-    .user-avator img{
-        display: inline-block;
-        width:36px;
-        height:36px;
-        border-radius: 50%;
-        vertical-align: middle;
-    }
-  .avatar-container {
-    height: 50px;
-    display: inline-block;
-    position: absolute;
-    right: 35px;
-    .avatar-wrapper {
-      cursor: pointer;
-      margin-top: 5px;
-      position: relative;
-      .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-      }
-      .el-icon-caret-bottom {
-        position: absolute;
-        right: -20px;
-        top: 25px;
-        font-size: 12px;
-      }
-    }
-  }
-  .language-container{
-    height: 50px;
-    display: inline-block;
-    position: absolute;
-    right: 200px;
-    .avatar-wrapper {
-      cursor: pointer;
-      margin-top: 5px;
-      position: relative;
 
-      .el-icon-caret-bottom {
-        position: absolute;
-        right: -20px;
-        top: 25px;
-        font-size: 12px;
+  .user-avator{
+    position: relative;
+    float: left;
+    margin-right: 10px;
+  }
+  .user-avator img{
+      display: inline-block;
+      width:36px;
+      height:36px;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+  .nav-ul {
+    float: right;
+    height: 100%;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    li {
+      margin: 0 10px;
+      float: left;
+      list-style: none;
+      position: relative;
+      cursor: pointer;
+      cursor: pointer;
+      color: #888;
+
+      .active {
+        i {
+          transform: rotate(180deg) translateY(2px);
+        }
+      }
+      .language-container {
+        i {
+          transition: .2s;
+        }
+      }
+      .avatar-container {
+        i {
+          transition: .2s;
+        }
       }
     }
   }
