@@ -1,4 +1,4 @@
-import { feacharticlelist, feacharticledetail } from '@/api/article'
+import { feacharticlelist, feacharticledetail, savearticle, deleteArticleById } from '@/api/article'
 const usermanager = {
   state: {
     articlelist: [],
@@ -12,11 +12,10 @@ const usermanager = {
       state.articledetail = articledetail
     }
   },
-
   actions: {
-    FeachArticleList({ commit, state }) {
+    FeachArticleList({ commit, state, rootState }) {
       return new Promise((resolve, reject) => {
-        feacharticlelist().then((reponse) => {
+        feacharticlelist(rootState.user.obj.id).then((reponse) => {
           commit('SET_ARTICLE_LIST', reponse.data.list)
           resolve()
         }).catch(error => {
@@ -28,6 +27,25 @@ const usermanager = {
       return new Promise((resolve, reject) => {
         feacharticledetail(id).then((reponse) => {
           commit('SET_ARTICLE_DETAIL', reponse.data[0])
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    SaveArticel({ commit, state, dispatch }, param) {
+      return new Promise((resolve, reject) => {
+        savearticle(param).then((reponse) => {
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    DelArticle({ dispatch, state, rootState }, param) {
+      return new Promise((resolve, reject) => {
+        deleteArticleById(param).then((reponse) => {
+          dispatch('FeachArticleList') // 获取更新后的用户列表信息
           resolve()
         }).catch(error => {
           reject(error)

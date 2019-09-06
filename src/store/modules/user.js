@@ -4,7 +4,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 const user = {
   state: {
     token: getToken(),
-    name: '',
+    obj: {},
     avatar: '',
     roles: [],
     role_name: ''
@@ -14,8 +14,8 @@ const user = {
     SET_TOKEN: (state, token) => {
       state.token = token
     },
-    SET_NAME: (state, name) => {
-      state.name = name
+    SET_OBJ: (state, obj) => {
+      state.obj = obj
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -51,6 +51,8 @@ const user = {
         getInfo(state.token).then(response => {
           const data = response.data[0] // 验证返回的roles是否是一个非空数组
 
+          commit('SET_OBJ', { 'name': data.user_name, 'id': data.id })
+
           // 根据role角色 来
           if (data.roles !== undefined) {
             // get system menu by user role
@@ -58,7 +60,6 @@ const user = {
           } else {
             reject('getInfo: roles must be a non-null array !')
           }
-          commit('SET_NAME', data.user_email)
           resolve(response)
         })
           .then(response => {

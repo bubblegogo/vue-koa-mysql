@@ -12,7 +12,8 @@ export default {
     title: 'Title',
     content: 'Content',
     description: 'Description',
-    createtime: 'CreateTime'
+    createtime: 'CreateTime',
+    fileuplod: 'FileUpload'
   },
   user: {
     adduser: 'Add User',

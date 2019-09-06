@@ -25,13 +25,30 @@
       <el-form-item :label="$t('article.description')" :label-width="formLabelWidth">
         <el-input v-model="articledetail.description"  auto-complete="off"></el-input>
       </el-form-item>
+
       <el-form-item :label="$t('article.createtime')" :label-width="formLabelWidth">
-          <el-date-picker type="date" placeholder="选择日期" v-model="articledetail.create_time" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="articledetail.create_time" style="width: 100%;"></el-date-picker>
+      </el-form-item>
+
+      <el-form-item  :label="$t('article.fileuplod')" :label-width="formLabelWidth">
+
+        <el-upload
+          class="upload-demo"
+          action="/api/file/upload"
+          :on-remove="handleRemove"
+          :on-success="handleFileSuccess"
+           multiple
+          :limit="3"
+          :file-list="fileList">
+          <el-button size="small" type="primary">点击上传</el-button>
+          <span style="margin-left: 10px;" slot="tip" class="el-upload__tip">只能上传jpg/png/txt/doc文件，且不超过2M</span>
+        </el-upload>
+
       </el-form-item>
 
       <el-form-item>
         <el-button type="primary" @click="onSubmit">{{$t('confirm.save')}}</el-button>
-        <el-button>{{$t('confirm.cancel')}}</el-button>
+        <el-button @click="goBack" > {{$t('confirm.cancel')}} </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -56,12 +73,34 @@
       }
     },
     computed: {
-      ...mapGetters(['articledetail'])
+      ...mapGetters(['articledetail']),
+      fileList() {
+        return this.articledetail.filesrc ? JSON.parse(this.articledetail.filesrc) : []
+      }
     },
     methods: {
-      ...mapActions(['FeachArticleDetail']),
+      ...mapActions(['FeachArticleDetail', 'SaveArticel']),
       onSubmit() {
-        console.log('submit!')
+        const param = {
+          'id': this.$store.state.user.obj.id,
+          ...this.articledetail
+        }
+        this.SaveArticel(param)
+        this.$message({
+          message: '添加成功',
+          type: 'success',
+          duration: 2 * 1000
+        })
+        this.goBack()
+      },
+      goBack() {
+        this.$router.push('/article/list')
+      },
+      handleRemove(file, fileList) {
+        this.articledetail.filesrc = JSON.stringify(fileList.map(item => { return { 'name': item.name, 'url': item.url } }))
+      },
+      handleFileSuccess(response, file, fileList) {
+        this.articledetail.filesrc = JSON.stringify(fileList.map(item => { return { 'name': item.name, 'url': item.url } }))
       }
     }
   }

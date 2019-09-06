@@ -48,7 +48,7 @@
       <el-table-column align="center" :label="$t('article.createtime')">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span>{{scope.row.create_time}}</span>
+          <span>{{scope.row.create_time  }}</span>
         </template>
       </el-table-column>
 
@@ -58,7 +58,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" align="center" :label="$t('operation.operation')" width="150">
+      <el-table-column fixed="right" align="center" :label="$t('operation.operation')" width="120">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="HandleClick(scope.row.id)">{{$t('operation.edit')}}</el-button>
           <el-button type="text" size="small" @click="HandleDel(scope.row.id)">{{$t('operation.del')}}</el-button>
@@ -74,7 +74,6 @@
 
 <script>
   import { article_type } from '@/utils/constant'
-
   import { mapGetters, mapActions } from 'vuex'
   import ssFormInput from '@/Components/Dialog/formuser'
   export default {
@@ -115,15 +114,14 @@
       ...mapGetters(['articlelist'])
     },
     methods: {
-      ...mapActions(['FeachArticleList']),
+      ...mapActions(['FeachArticleList', 'DelArticle']),
       // 编辑与添加新用户
       HandleClick(id) {
         this.$router.push({ path: 'editArticle', query: { id }})
       },
       HandleDel(id) {
-        this.DelUser({ 'id': id, 'status': 0 })
+        this.DelArticle({ 'id': id, 'status': 0 })
       }
-
     }
   }
 </script>

@@ -23,7 +23,7 @@
           <div class="user-avator"><img src="static/img/img.jpg"></div>
           <el-dropdown :class="['avatar-container',avaActive?'active':'']" @visible-change="avaVisibleChange"  trigger="click">
             <span class="el-dropdown-link">
-              {{this.$store.state.user.name}} <i class="el-icon-arrow-down el-icon--right"></i>
+              {{this.$store.state.user.obj.name}} <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu  slot="dropdown">
               <router-link class="inlineBlock" to="/">
@@ -91,10 +91,10 @@ export default {
       }
     },
     lanVisibleChange(v) {
-      this.isActive = v;
+      this.isActive = v
     },
     avaVisibleChange(v) {
-      this.avaActive = v;
+      this.avaActive = v
     }
   }
 }

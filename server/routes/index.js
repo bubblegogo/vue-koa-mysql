@@ -64,6 +64,9 @@ router.post('/article/get_article_list',checkToken,Article.getArticleList)
 router.post('/article/get_article',checkToken,Article.getArticle)
 //添加文章
 router.post('/article/save_article',checkToken,Article.createArticle)
+//文章删除
+router.post('/article/del_article',checkToken,Article.delArticleById)
+
 
 //文件上传至 服务器
 router.post('/file/upload',File.fileupload)
@@ -84,8 +87,7 @@ router.post('/edit_type',checkToken,Type.editTypeById);
 router.post('/edit_article',checkToken,Article.editArticle)
 //文章状态
 router.post('/update_state',checkToken,Article.updateState)
-//文章删除
-router.post('/del_article',checkToken,Article.delArticleById)
+
 
 
 

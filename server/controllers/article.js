@@ -5,8 +5,10 @@ class ArticleController{
     static async createArticle(ctx){
         //es6 解构
         //这里解构需要和 ctx.request.body 的对象属性相同
-        const { title,content,tags,type,thumb } = ctx.request.body;
+        const { title,content,id,typeid,filesrc,create_time } = ctx.request.body;
+
         let time = moment().format('YYYY-MM-DD HH:mm')
+
         if(!title){
             ctx.jsonReturn({
                 code:1,
@@ -19,13 +21,30 @@ class ArticleController{
                 message:'内容不能为空'
             })
         }
-        if(!type){
+        if(!typeid){
             ctx.jsonReturn({
                 code:1,
                 message:'类型不能为空'
             })
         }
-        await Model.selectTypeAllModel()
+        await Model.saveArticlModel([title,id,content,create_time,typeid,filesrc,time,1])
+          .then(res => {
+              if(res){
+                ctx.jsonReturn({
+                  code:200,
+                  message:'添加文章成功',
+                  data:id
+                })
+              }else{
+                ctx.jsonReturn({
+                  code:1,
+                  message:'失败'
+                })
+            }
+          })
+
+
+        /*await Model.selectTypeAllModel()
             .then(res=>{
                 var selectInfoRes = JSON.parse(JSON.stringify(res))
                 if(selectInfoRes.length <= 0){
@@ -64,7 +83,7 @@ class ArticleController{
                         message:'该栏目下已存在此文章'
                     })
                 }else{
-                    let addRes = Model.addArticlModel([type,title,tags,thumb,content,time])
+                    let addRes = Model.saveArticlModel([type,title,tags,thumb,content,time])
                     if(addRes){
                         ctx.jsonReturn({
                             code:2,
@@ -83,76 +102,31 @@ class ArticleController{
                     code:1,
                     message:'添加失败,服务器异常'
                 })
-            })
+            })*/
 
     }
     static async getArticleList(ctx){
-         await Model.selectAllArticle()
-            .then(res=>{
-                var resList = JSON.parse(JSON.stringify(res))
-                if(resList.length == 0){
-                    ctx.jsonReturn({
-                        code:1,
-                        data:{
-                            list:[]
-                        },
-                        message:'err'
-                    })
-                }else{
-                  ctx.jsonReturn({
-                    code:200,
-                    data:{
-                      list:resList
-                    },
-                    message:'ok'
-                  })
-                }
-
+        const{ id } = ctx.request.body;
+        await Model.selectAllArticle(id)
+        .then(res=>{
+            var resList = JSON.parse(JSON.stringify(res))
+            ctx.jsonReturn({
+              code:200,
+              data:{
+                list:resList
+              },
+              message:'ok'
             })
-           .catch(err=>{
-             ctx.jsonReturn({
-               code:1,
-               message:'添加失败,服务器异常'
-             })
-           })
-
-           /* await Model.selectTypeAllModel()
-                .then(typeListres=>{
-                    var typeList = JSON.parse(JSON.stringify(typeListres))
-                    let newList = resList.map(function(item,index){
-                        typeList.forEach(function(item2,index){
-                            if(item['typeid'] == item2['id']){
-                                item['type_name'] = item2['type_name']
-                            }
-                            if(item['is_public'] == 1){
-                                item['public_state'] = '发布'
-                            }else{
-                                item['public_state'] = '未发布'
-                            }
-                        })
-                        return item;
-                    })
-                    ctx.jsonReturn({
-                        code:2,
-                        data:{
-                            list:newList
-                        },
-                        message:'ok'
-                    })
-                }).catch(err=>{
-                    ctx.jsonReturn({
-                        code:1,
-                        data:{
-                            list:[]
-                        },
-                        message:'err'
-                    })
-                })*/
-
-        }
+        })
+       .catch(err=>{
+         ctx.jsonReturn({
+           code:1,
+           message:'添加失败,服务器异常'
+         })
+       })
+    }
     static async getArticle(ctx){
         const{ id } = ctx.request.body;
-        console.log( id );
         if(!id || isNaN(id)){
             ctx.jsonReturn({
                 code:1,
@@ -297,18 +271,18 @@ class ArticleController{
 
     }
     static async delArticleById(ctx){
-        const{ id } = ctx.request.body;
+        const{ id,status } = ctx.request.body;
         if(!id || isNaN(id)){
             ctx.jsonReturn({
                 code:1,
                 message:'id err'
             })
         }
-        await Model.delArticleByIdModel(id)
+        await Model.delArticleById(id,status)
             .then(res=>{
                 if(res){
                     ctx.jsonReturn({
-                        code:2,
+                        code:200,
                         message:'删除成功'
                     })
                 }else{

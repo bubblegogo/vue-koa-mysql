@@ -3,11 +3,11 @@
 
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import locale from 'element-ui/lib/locale' // 兼容 element-ui 语言
+// import locale from 'element-ui/lib/locale' // 兼容 element-ui 语言
 import zh from './lang/zh'
 import en from './lang/en'
 
-import enLocale from 'element-ui/lib/locale/lang/en' //element ui 自带语言文件
+import enLocale from 'element-ui/lib/locale/lang/en' // element ui 自带语言文件
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
 Vue.use(VueI18n)
@@ -15,11 +15,11 @@ Vue.use(VueI18n)
 const messages = {
   en: {
     ...en,
-    ...enLocale // 或者用 Object.assign({ message: 'hello' }, enLocale)
+    ...enLocale // 或者用 Object.assign(en, enLocale)
   },
   zh: {
     ...zh,
-    ...zhLocale // 或者用 Object.assign({ message: '你好' }, zhLocale)
+    ...zhLocale // 或者用 Object.assign(zh, zhLocale)
   }
 }
 
@@ -34,5 +34,5 @@ const i18n = new VueI18n({
 })
 
 // 按需加载里定制 i18n  详细查看 elementui 官网
-//locale.i18n((key, value) => i18n.t(key, value))
+// locale.i18n((key, value) => i18n.t(key, value))
 export default i18n

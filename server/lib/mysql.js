@@ -100,23 +100,34 @@ let getlogout= function(value){
 /********* article list api *********/
 
 //获取所有文章
-let selectAllArticle = function(value){
-  let _sql = `select * from article`;
+let selectAllArticle = function(id){
+  let _sql = ''
+  if(id == 1){
+    _sql = `select * from article where status = 1 `;
+  }else{
+    _sql = `select * from article where status = 1 and user_id = "${id}" `;
+  }
   return query(_sql)
 }
 
 //根据id查找文章
 let selectArticleById = function(id){
-  let _sql = `select * from article where id = "${id}"`;
+  let _sql = `select * from article where id = "${id}" `;
   return query(_sql);
 }
-
-
-/*//添加文章
-let addArticlModel = function(value){
-  let _sql  = "insert into article (typeid,title,tags,thumb,content,time) values(?,?,?,?,?,?)"
+//添加文章
+let saveArticlModel = function(value){
+  let _sql  = "insert into article (title,user_id,content,create_time,typeid,filesrc,update_time,status) values(?,?,?,?,?,?,?,?)"
   return query(_sql,value)
 }
+
+//删除文章
+let delArticleById = function(id,status){
+  let _sql = `update article set status = "${status}" where id = "${id}"`;
+  return query(_sql)
+}
+
+/*
 //查询栏目下的文章是否存在
 let selectTitleById = function(title,type){
   let _sql = `select * from article where title = "${title}" and typeid = "${type}" `;
@@ -158,11 +169,6 @@ let updateArticleStateModel = function(value){
   return query(_sql,value)
 }
 
-//删除文章
-let delArticleByIdModel = function(id){
-  let _sql = `delete from article where id = "${id}"`;
-  return query(_sql)
-}
 
 //推荐文章
 let articleRecommendModel = function(data){
@@ -262,8 +268,10 @@ module.exports = {
 
     selectAllArticle,
     selectArticleById,
+    saveArticlModel,
+    delArticleById,
 
-    /*addArticlModel,
+    /*
     addTypeModel,
     selectTypeModelByType,
 
@@ -274,7 +282,7 @@ module.exports = {
 
     updateArticleModel,
     updateArticleStateModel,
-    delArticleByIdModel,
+
     selectArticleByTypeIdModel,
     selectArticleByTypeHotModel,
     articleRecommendModel,

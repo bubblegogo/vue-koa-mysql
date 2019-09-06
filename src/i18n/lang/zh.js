@@ -12,7 +12,8 @@ export default {
     title: '文章标题',
     content: '文章内容',
     description: '文章描述',
-    createtime: '创建时间'
+    createtime: '创建时间',
+    fileuplod: '文件上传'
   },
   user: {
     adduser: '新增用户',

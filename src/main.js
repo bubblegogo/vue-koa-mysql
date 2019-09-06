@@ -12,7 +12,7 @@ import store from './store'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-import './assets/iconfont/iconfont.css' //引入 阿里图标库
+import './assets/iconfont/iconfont.css' // 引入 阿里图标库
 
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value) // 兼容 vue-i18n@6.x
