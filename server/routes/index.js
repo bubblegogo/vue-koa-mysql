@@ -1,17 +1,22 @@
 const router = require('koa-router')()
-const multer = require('koa-multer');//加载koa-multer模块
+
 //checkToken作为中间件存在
 const checkToken = require('../token/checkToken.js');
 const User = require('../controllers/user.js');
 const Type = require('../controllers/type.js');
 const Article = require('../controllers/article.js');
 const Front = require('../controllers/front.js')
+const File = require('../controllers/file.js');
 
+//使用 koa-body 代替 koa-bodyparser koa-multer
+/*
+const multer = require('koa-multer');//加载koa-multer模块
+var path = require("path")
 //配置
 var storage = multer.diskStorage({
     //文件保存路径
     destination: function (req, file, cb) {
-      cb(null, 'uploads/')
+      cb(null, path.join(__dirname,'../uploads/'))
     },
     //修改文件名称
     filename: function (req, file, cb) {
@@ -21,6 +26,14 @@ var storage = multer.diskStorage({
   })
   //加载配置
 var upload = multer({ storage: storage });
+//缩略图上传 由于 koa-route koa-router
+router.post('/upload', upload.single('file'), async (ctx, next) => {
+  ctx.body = {
+    filename: ctx.req.file//返回文件名
+  }
+})
+*/
+
 
 //后台接口
 //登录
@@ -45,12 +58,15 @@ router.post('/user/delete_byid',User.deleteUser)
 //退出
 router.post('/user/logout',User.getLogOut)
 
-
 //文章列表
 router.post('/article/get_article_list',checkToken,Article.getArticleList)
 //查找文章
 router.post('/article/get_article',checkToken,Article.getArticle)
+//添加文章
+router.post('/article/save_article',checkToken,Article.createArticle)
 
+//文件上传至 服务器
+router.post('/file/upload',File.fileupload)
 
 
 //添加栏目
@@ -61,8 +77,7 @@ router.post('/type_all',checkToken,Type.selectTypeAll)
 router.post('/del_type',checkToken,Type.delectTypeById);
 //修改栏目
 router.post('/edit_type',checkToken,Type.editTypeById);
-//添加文章
-router.post('/add_article',checkToken,Article.createArticle)
+
 
 
 //编辑文章
@@ -71,13 +86,9 @@ router.post('/edit_article',checkToken,Article.editArticle)
 router.post('/update_state',checkToken,Article.updateState)
 //文章删除
 router.post('/del_article',checkToken,Article.delArticleById)
-//缩略图上传
-router.post('/upload', upload.single('file'), async (ctx, next) => {
-    console.log( ctx );
-    ctx.body = {
-      filename: 'http://'+ctx.host+'/'+ctx.req.file.filename//返回文件名
-    }
-  })
+
+
+
 //推荐
 router.post('/set_recommend',checkToken,Article.setRecommend)
 //设置轮播
