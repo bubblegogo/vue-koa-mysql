@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
 // feach user list
-export function feacharticlelist(id) {
+export function feacharticlelist(param) {
   return request({
     url: '/article/get_article_list',
     method: 'post',
-    data: { id }
+    data: param
   })
 }
 // feach article by id

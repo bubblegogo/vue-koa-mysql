@@ -106,14 +106,29 @@ class ArticleController{
 
     }
     static async getArticleList(ctx){
-        const{ id } = ctx.request.body;
-        await Model.selectAllArticle(id)
-        .then(res=>{
-            var resList = JSON.parse(JSON.stringify(res))
+        const{ id,current_page=1,page_size=20 } = ctx.request.body;
+        let total=0;
+        await Model.selectAllArt(id)
+          .then(res =>{
+          var resList = JSON.parse(JSON.stringify(res))
+
+          if(res.length ){
+            total = res.length;
+            let articleList = Model.selectAllArticle(id,current_page,page_size)
+            return articleList
+          }
+        })
+        .then(articleList=>{
+            var resList = JSON.parse(JSON.stringify(articleList))
             ctx.jsonReturn({
               code:200,
               data:{
-                list:resList
+                list:resList,
+                page:{
+                  current_page:current_page,
+                  page_size:page_size,
+                  total:total,
+                }
               },
               message:'ok'
             })

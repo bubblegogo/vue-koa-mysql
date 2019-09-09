@@ -7,6 +7,7 @@ import permission from './modules/permission'
 import sidemenu from './modules/admin/sidemenu'
 import usermanager from './modules/admin/usermanager'
 import articlemanager from './modules/article/articlemanager'
+import pages from './modules/page/index'
 
 import logger from './logger'
 Vue.use(Vuex)
@@ -18,7 +19,8 @@ const store = new Vuex.Store({
     permission,
     sidemenu,
     usermanager,
-    articlemanager
+    articlemanager,
+    pages
   },
   logger,
   getters

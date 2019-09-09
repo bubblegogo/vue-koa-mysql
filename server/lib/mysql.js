@@ -38,8 +38,15 @@ let dologin = function(username,password){
     return query(_sql)
 }
 //查询所有用户
-let getuserlist = function(){
-   	let _sql = `select * from user`;
+let getsumuser = function(){
+  let _sql = `select * from user`;
+  return query(_sql)
+}
+let getuserlist = function(current_page,page_size){
+
+    let page = pageObj(current_page,page_size)
+   	let _sql = `select * from user limit ${page.st_num}, ${page.ed_num}`;
+
     return query(_sql)
 }
 
@@ -96,11 +103,29 @@ let getlogout= function(value){
   return query(_sql)
 }
 
+let pageObj = function(current_page,page_size){
+  let st_num = (current_page-1)*page_size;
+  let ed_num = current_page*page_size;
+  return {"st_num":st_num,"ed_num":ed_num}
+}
 
 /********* article list api *********/
 
 //获取所有文章
-let selectAllArticle = function(id){
+let selectAllArticle = function(id,current_page,page_size){
+  let _sql = ''
+  let page = pageObj(current_page,page_size)
+  if(id == 1){
+    _sql = `select * from article where status = 1 `;
+  }else{
+    _sql = `select * from article where status = 1 and user_id = "${id}" `;
+  }
+
+  _sql += ` limit ${page.st_num}, ${page.ed_num} `
+
+  return query(_sql)
+}
+let selectAllArt = function(id,current_page,page_size){
   let _sql = ''
   if(id == 1){
     _sql = `select * from article where status = 1 `;
@@ -263,10 +288,12 @@ module.exports = {
     getallrolemenu,
     getMenuNameById,
     getuserlist,
+    getsumuser,
     updateUserToken,
     getlogout,
 
     selectAllArticle,
+    selectAllArt,
     selectArticleById,
     saveArticlModel,
     delArticleById,

@@ -14,9 +14,10 @@ const usermanager = {
   },
 
   actions: {
-    FeachUserList({ commit, state }) {
+    FeachUserList({ commit, state, rootState, dispatch }) {
       return new Promise((resolve, reject) => {
-        feachuserlist().then((reponse) => {
+        feachuserlist({ current_page: rootState.pages.pageobj.current_page, page_size: rootState.pages.pageobj.page_size }).then((reponse) => {
+          dispatch('setTotalPage', reponse.data.page)
           commit('SET_USER_LIST', reponse.data.list)
           resolve()
         }).catch(error => {

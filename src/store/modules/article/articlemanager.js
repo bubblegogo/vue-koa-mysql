@@ -13,9 +13,10 @@ const usermanager = {
     }
   },
   actions: {
-    FeachArticleList({ commit, state, rootState }) {
+    FeachArticleList({ commit, state, rootState, dispatch }) {
       return new Promise((resolve, reject) => {
-        feacharticlelist(rootState.user.obj.id).then((reponse) => {
+        feacharticlelist({ id: rootState.user.obj.id, current_page: rootState.pages.pageobj.current_page, page_size: rootState.pages.pageobj.page_size }).then((reponse) => {
+          dispatch('setTotalPage', reponse.data.page)
           commit('SET_ARTICLE_LIST', reponse.data.list)
           resolve()
         }).catch(error => {

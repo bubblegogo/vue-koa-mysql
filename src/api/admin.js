@@ -8,10 +8,11 @@ export function feachlist() {
   })
 }
 // feach user list
-export function feachuserlist() {
+export function feachuserlist(params) {
   return request({
     url: '/user/get_user_list',
-    method: 'post'
+    method: 'post',
+    data: params
   })
 }
 // get a single user msg

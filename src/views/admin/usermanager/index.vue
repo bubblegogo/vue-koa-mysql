@@ -50,6 +50,17 @@
       </el-table-column>
 
     </el-table>
+    <div class="block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        layout="total, prev, pager, next"
+        :current-page="pageobj.current_page"
+        :page-size="pageobj.page_size"
+        :total="pageobj.total">
+      </el-pagination>
+    </div>
+
 
     <ss-form-input :key-value="formObject"></ss-form-input>
 
@@ -96,19 +107,34 @@
     },
 
     computed: {
-      ...mapGetters(['roles', 'userlist'])
+      ...mapGetters(['roles', 'userlist', 'pageobj'])
     },
 
     methods: {
-      ...mapActions(['FeachUserList', 'SaveUser', 'DelUser']),
+      ...mapActions(['FeachUserList', 'SaveUser', 'DelUser', 'setCurrentPage', 'setPageSize']),
       // 编辑与添加新用户
       HandleClick(id) {
         this.$router.push({ path: 'edituser', query: { id }})
       },
       HandleDel(id) {
         this.DelUser({ 'id': id, 'status': 0 })
+      },
+      handleSizeChange(val) {
+        this.setPageSize(val)
+        this.FeachUserList()
+      },
+      handleCurrentChange(val) {
+        this.setCurrentPage(val)
+        this.FeachUserList()
       }
 
     }
   }
 </script>
+
+<style scoped>
+  .block {
+    text-align: right;
+    margin: 1rem;
+  }
+</style>

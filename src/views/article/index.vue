@@ -66,9 +66,18 @@
       </el-table-column>
 
     </el-table>
+      <div class="block">
+        <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        layout="total, prev, pager, next"
+        :current-page="pageobj.current_page"
+        :page-size="pageobj.page_size"
+        :total="pageobj.total">
+      </el-pagination>
+    </div>
 
     <ss-form-input :key-value="formObject"></ss-form-input>
-
   </div>
 </template>
 
@@ -111,16 +120,24 @@
       this.FeachArticleList()
     },
     computed: {
-      ...mapGetters(['articlelist'])
+      ...mapGetters(['articlelist', 'pageobj'])
     },
     methods: {
-      ...mapActions(['FeachArticleList', 'DelArticle']),
+      ...mapActions(['FeachArticleList', 'DelArticle', 'setCurrentPage', 'setPageSize']),
       // 编辑与添加新用户
       HandleClick(id) {
         this.$router.push({ path: 'editArticle', query: { id }})
       },
       HandleDel(id) {
         this.DelArticle({ 'id': id, 'status': 0 })
+      },
+      handleSizeChange(val) {
+        this.setPageSize(val)
+        this.FeachArticleList()
+      },
+      handleCurrentChange(val) {
+        this.setCurrentPage(val)
+        this.FeachArticleList()
       }
     }
   }
@@ -136,6 +153,10 @@
   }
   .searchIn {
     display: flex;display: -webkit-flex
+  }
+  .block {
+    text-align: right;
+    margin: 1rem;
   }
 
 

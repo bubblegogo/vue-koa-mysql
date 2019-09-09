@@ -13,7 +13,9 @@ const getters = {
   permission_routers: state => state.permission.routers, // 用户权限路由列表
   addRouters: state => state.permission.addRouters,
   articlelist: state => state.articlemanager.articlelist, // 文章列表
-  articledetail: state => state.articlemanager.articledetail // 文章列表
+  articledetail: state => state.articlemanager.articledetail, // 文章列表
+
+  pageobj: state => state.pages.pageobj // 分页操作属性
 
 }
 export default getters

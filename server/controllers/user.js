@@ -194,26 +194,49 @@ class UserController{
    }
     */
     static async getUserList(ctx){
-        await Model.getuserlist()
-            .then(res=>{
-                var resList = JSON.parse(JSON.stringify(res))
-                if(resList.length == 0){
-                    ctx.jsonReturn({
-                        code:1,
-                        data:{
-                            list:[]
-                        },
-                        message:'err'
-                    })
-                }else{
-                	ctx.jsonReturn({
-                        code:200,
-                        data:{
-                        	list:resList
-                        },
-                    });
-                }
-            })
+      const{ current_page=1, page_size=20 } = ctx.request.body;
+      let page = {};
+      await Model.getsumuser()
+        .then(res => {
+          var resList = JSON.parse(JSON.stringify(res))
+          page = {
+            current_page:current_page,
+            page_size:page_size,
+            total:resList.length,
+          }
+          if(resList.length > 0){
+            let userlist = Model.getuserlist(current_page,page_size)
+            return userlist
+          }
+        })
+        .then(userlist=>{
+            var resList = JSON.parse(JSON.stringify(userlist))
+            if(resList.length == 0){
+                ctx.jsonReturn({
+                    code:1,
+                    data:{
+                        list:[],
+                        page:page
+                    },
+
+                    message:'err'
+                })
+            }else{
+              ctx.jsonReturn({
+                    code:200,
+                    data:{
+                      list:resList,
+                      page:page
+                    },
+                });
+            }
+        })
+        .catch(err=>{
+          ctx.jsonReturn({
+            code:1,
+            message:'用户列表暂无数据'
+          })
+        })
     }
 
     static async getLogOut(ctx){
