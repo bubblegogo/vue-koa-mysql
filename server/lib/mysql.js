@@ -17,7 +17,21 @@ let query = function( sql, values ) {
             resolve( err )
           } else {
             console.log(sql)
-            connection.query(sql, values, (err, rows) => {
+            
+            //先把 数值与 sql 进行组装
+            sql = mysql.format(sql, values);
+            // 新增把 TINY 类型的值 更改为 boolean 类型
+            var options = {
+              sql: sql,
+              typeCast: function (field, next) {
+                if (field.type == 'TINY' && field.length == 1) {
+                  return (field.string() == '1'); // 1 = true, 0 = false
+                }
+                return next();
+              }
+            };
+
+            connection.query(options, (err, rows) => {
               if ( err ) {
                 reject( err )
               } else {
@@ -151,6 +165,16 @@ let delArticleById = function(id,status){
   let _sql = `update article set status = "${status}" where id = "${id}"`;
   return query(_sql)
 }
+
+
+/******************获取待办事情列表*******************/
+let selectAllTodo = function(id){
+  let _sql = `select id,user_id,status,content from todo where user_id = "${id}" order by create_time desc limit 20 `;
+  return query(_sql);
+}
+
+
+
 
 /*
 //查询栏目下的文章是否存在
@@ -297,6 +321,9 @@ module.exports = {
     selectArticleById,
     saveArticlModel,
     delArticleById,
+
+    // 获取代办事情列表
+    selectAllTodo,
 
     /*
     addTypeModel,
