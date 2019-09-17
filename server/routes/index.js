@@ -7,6 +7,7 @@ const Type = require('../controllers/type.js');
 const Article = require('../controllers/article.js');
 const Front = require('../controllers/front.js')
 const File = require('../controllers/file.js');
+const ToDo = require('../controllers/todo.js');
 
 //使用 koa-body 代替 koa-bodyparser koa-multer
 /*
@@ -68,9 +69,14 @@ router.post('/article/save_article',checkToken,Article.createArticle)
 router.post('/article/del_article',checkToken,Article.delArticleById)
 
 
+//获取代办事情列表
+router.post('/todo/get_todo_list',checkToken,ToDo.getTodoList)
+router.post('/todo/del_todo_byid',checkToken,ToDo.delTodoById)
+router.post('/todo/up_todo_byid',checkToken,ToDo.upTodoById)
+
+
 //文件上传至 服务器
 router.post('/file/upload',File.fileupload)
-
 
 //添加栏目
 router.post('/add_type',checkToken,Type.createType)
@@ -87,8 +93,6 @@ router.post('/edit_type',checkToken,Type.editTypeById);
 router.post('/edit_article',checkToken,Article.editArticle)
 //文章状态
 router.post('/update_state',checkToken,Article.updateState)
-
-
 
 
 //推荐

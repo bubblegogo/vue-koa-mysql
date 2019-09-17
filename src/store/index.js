@@ -8,6 +8,7 @@ import sidemenu from './modules/admin/sidemenu'
 import usermanager from './modules/admin/usermanager'
 import articlemanager from './modules/article/articlemanager'
 import pages from './modules/page/index'
+import todo from './modules/todo/index'
 
 import logger from './logger'
 Vue.use(Vuex)
@@ -20,6 +21,7 @@ const store = new Vuex.Store({
     sidemenu,
     usermanager,
     articlemanager,
+    todo,
     pages
   },
   logger,

@@ -15,7 +15,9 @@ const getters = {
   articlelist: state => state.articlemanager.articlelist, // 文章列表
   articledetail: state => state.articlemanager.articledetail, // 文章列表
 
-  pageobj: state => state.pages.pageobj // 分页操作属性
+  pageobj: state => state.pages.pageobj, // 分页操作属性
+
+  todolist: state => state.todo.todolist // 获取用户主页面的代办事项
 
 }
 export default getters

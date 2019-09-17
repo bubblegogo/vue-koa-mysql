@@ -17,7 +17,7 @@ let query = function( sql, values ) {
             resolve( err )
           } else {
             console.log(sql)
-            
+
             //先把 数值与 sql 进行组装
             sql = mysql.format(sql, values);
             // 新增把 TINY 类型的值 更改为 boolean 类型
@@ -167,14 +167,23 @@ let delArticleById = function(id,status){
 }
 
 
-/******************获取待办事情列表*******************/
+/******************获取待办事情*******************/
+
+// feach todo list
 let selectAllTodo = function(id){
   let _sql = `select id,user_id,status,content from todo where user_id = "${id}" order by create_time desc limit 20 `;
   return query(_sql);
 }
+// del todo by id
+let delTodoById = function(id,status,user_id){
+  let _sql = `update todo set status = "${status}" , del_userid = "${user_id}" where id = "${id}" `;
+  return query(_sql)
+}
 
-
-
+let upTodoById = function(id,content){
+  let _sql = `update todo set content = "${content}" where id = "${id}" `;
+  return query(_sql)
+}
 
 /*
 //查询栏目下的文章是否存在
@@ -324,6 +333,8 @@ module.exports = {
 
     // 获取代办事情列表
     selectAllTodo,
+    delTodoById,
+    upTodoById
 
     /*
     addTypeModel,

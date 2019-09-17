@@ -8,7 +8,7 @@
                             <div class="user-info">
                                 <img src="static/img/img.jpg" class="user-avator" alt="">
                                 <div class="user-info-cont">
-                                    <div class="user-info-name">{{name}}</div>
+                                    <div class="user-info-name">{{obj.name}}</div>
                                     <div>{{roles == 1 ? 'admin':'user'}}</div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                         <span>待办事项</span>
                         <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
                     </div>
-                    <el-table :data="todoList" :show-header="false" height="304" style="width: 100%;font-size:14px;">
+                    <el-table :data="todolist" :show-header="false" height="304" style="width: 100%;font-size:14px;">
                         <el-table-column width="40">
                             <template slot-scope="scope">
                                 <el-checkbox v-model="scope.row.status"></el-checkbox>
@@ -91,15 +91,22 @@
                         </el-table-column>
                         <el-table-column>
                             <template slot-scope="scope">
-                                <div class="todo-item" :class="{'todo-item-del': scope.row.status}">{{scope.row.title}}</div>
+                                <auto-editable :autoeditable = "autoComplete[scope.row.id]" :id="scope.row.id" :status="scope.row.status"  :value="scope.row.content" v-on:input="blurClick" > </auto-editable>
+                              <!--  <div class="todo-item"  :contenteditable="autoComplete[scope.row.id]" :ref="scope.row.id"  @blur="blurClick(scope.row,$event)" :class="{'todo-item-del': scope.row.status}" >{{scope.row.content}}</div>
+                           -->
                             </template>
                         </el-table-column>
                         <el-table-column width="60">
                             <template slot-scope="scope">
-                                <i class="el-icon-edit"></i>
-                                <i class="el-icon-delete"></i>
+                                <i class="el-icon-edit" @click="HandleEdit(scope.row.id)"></i>
+
+                                <i v-if="!scope.row.status" class="el-icon-delete" @click="HandleClick(scope.row)"></i>
+                                <i v-else  class="el-icon-back" @click="HandleClick(scope.row)"></i>
+
+
                             </template>
                         </el-table-column>
+
                     </el-table>
                 </el-card>
 
@@ -109,43 +116,47 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
+  import autoEditable from '@/components/AutoEditable'
   export default {
     name: 'dashboard',
+    components: {
+      autoEditable
+    },
     data() {
       return {
-        todoList: [
-          {
-            title: '今天要修复100个bug',
-            status: false
-          },
-          {
-            title: '今天要修复100个bug',
-            status: false
-          },
-          {
-            title: '今天要写100行代码加几个bug吧',
-            status: false
-          }, {
-            title: '今天要修复100个bug',
-            status: false
-          },
-          {
-            title: '今天要修复100个bug',
-            status: true
-          },
-          {
-            title: '今天要写100行代码加几个bug吧',
-            status: true
-          }
-        ]
+        autoComplete: {}
       }
+    },
+    created() {
+      this.feachToDoList()
     },
     computed: {
       ...mapGetters([
-        'name',
-        'roles'
+        'obj',
+        'roles',
+        'todolist'
       ])
+    },
+    methods: {
+      ...mapActions(['feachToDoList', 'delToDoById', 'updateToDoById']),
+      HandleClick(row) {
+        this.delToDoById({ 'id': row.id, 'status': +!row.status, 'user_id': this.$store.state.user.obj.id })
+      },
+
+      HandleEdit(id) {
+        Object.keys(this.autoComplete).forEach(item => {
+          if (item !== id) {
+            this.autoComplete[item] = false
+          }
+        })
+        this.$set(this.autoComplete, id, true)
+      },
+      blurClick(autoobj) {
+        this.updateToDoById(autoobj)
+      }
+    },
+    watch: {
     }
   }
 </script>
@@ -258,6 +269,7 @@
 
     .todo-item {
         font-size: 14px;
+        cursor: pointer;
     }
 
     .todo-item-del {
