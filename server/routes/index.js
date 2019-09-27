@@ -49,15 +49,19 @@ router.post('/user/get_info_byid',User.getInfoById)
 //获取单个用户角色所对应的权限
 router.post('/user/get_role_menu',User.getRoleMenu)
 
+//获取单个用户角色所对应的权限
+router.post('/user/role_update',User.updateRoleMenu)
+
+
 //获取用户列表
 router.post('/user/get_user_list',User.getUserList)
-
 
 // 删除用户
 router.post('/user/delete_byid',User.deleteUser)
 
 //退出
 router.post('/user/logout',User.getLogOut)
+
 
 //文章列表
 router.post('/article/get_article_list',checkToken,Article.getArticleList)

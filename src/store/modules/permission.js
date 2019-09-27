@@ -53,7 +53,7 @@ const permission = {
         // user_role = data.roles.roles;
 
         // 方法二 从 user GetInfo 中 根绝角色 来获取 模块权限id 来进行动态模块生成
-        const user_role = this.state.user.roles
+        const user_role = JSON.parse(this.state.user.roles) // 这里就是对应的 所有的模块功能
         if (user_role instanceof Array) {
           roles = user_role
         } else {

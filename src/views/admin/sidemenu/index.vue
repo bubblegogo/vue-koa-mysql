@@ -1,48 +1,46 @@
 <template>
 	<div class="app-container">
 
-		<el-row :gutter="10" class="row-table">
-			<el-col :span="5">roleId</el-col>
-			<el-col :span="5">roleName</el-col>
-			<el-col :span="5">权限</el-col>
-			<el-col :span="5"> 时间 </el-col>
-		</el-row>
 
-		<el-collapse accordion>
+    <el-input placeholder="Filter keyword" v-model="filterText" style="margin-bottom:30px;"></el-input>
 
-		  <el-collapse-item :key="index" v-for="(item,index) in rolelist">
-		    <template slot="title">
-		    	<el-row :gutter="10">
-				  <el-col :span="5">{{item.role_id}}</el-col>
-				  <el-col :span="5">{{item.menu_name}}</el-col>
-				  <el-col :span="5" class="row-tb-col">{{item.mname}} </el-col>
-				  <el-col :span="5">{{item.role_id}} </el-col>
-				</el-row>
-		    </template>
 
-		    <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-		    <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-		  </el-collapse-item>
+    <el-collapse accordion v-model="activeRole"  @change="handleChange" >
+
+		  <el-collapse-item :name="item.role_id" :key="index" v-for="(item,index) in rolelist">
+
+        <template slot="title" slot-scope="scope" >
+          <el-row :gutter="10">
+            <el-col :span="18">{{item.menu_name}}  权限编辑</el-col>
+            <el-col :span="4" class="del-font" ><i  @click.stop="delRoleMenu(item.role_id)" class="header-icon el-icon-delete"></i></el-col>
+          </el-row>
+        </template>
+
+        <div>注意: 展示当前角色下所对应的模块权限功能</div>
+
+        <div class="block">
+          <el-tree
+            :data="treemenu"
+            :props="defaultProps"
+            :ref="item.role_id"
+            show-checkbox
+            node-key="id"
+            @check-change="handleCheckChange"
+            :default-checked-keys="roleKeys">
+          </el-tree>
+        </div>
+
+      </el-collapse-item>
 
 		</el-collapse>
-
-		<el-input placeholder="Filter keyword" v-model="filterText" style="margin-bottom:30px;"></el-input>
-		<el-tree class="filter-tree" :data="data2" :props="defaultProps" default-expand-all :filter-node-method="filterNode" ref="tree2">
-		</el-tree>
-
-
-		<div class="block">
-			<p> 使用 render-content </p>
-			<el-tree :data="data4"  class="filter-tree" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false" :render-content="renderContent">
-			</el-tree>
-		</div>
-
 
 	</div>
 </template>
 
 
 <script>
+  // import { constantRouterMap } from "../../../router";
+
   let id = 1000
   import { mapGetters, mapActions } from 'vuex'
   export default {
@@ -57,57 +55,25 @@
       ...mapGetters([
         'roles',
         'menulist',
-        'rolelist'
+        'rolelist',
+        'treemenu'
       ])
     },
-    watch: {
-      filterText(val) {
-        this.$refs.tree2.filter(val)
-      }
-    },
     data() {
-      const data = [{
-        id: 0,
-        label: 'Root',
-        children: [{
-          id: 1,
-          label: '菜单一',
-          children: []
-        }, {
-          id: 2,
-          label: '菜单二',
-          children: [{
-            id: 5,
-            label: '二级菜单 2-1'
-          }, {
-            id: 6,
-            label: '二级菜单 2-2'
-          }]
-        }, {
-          id: 3,
-          label: '菜单三',
-          children: [{
-            id: 7,
-            label: '二级菜单 3-1'
-          }, {
-            id: 8,
-            label: '二级菜单 3-2'
-          }]
-        }]
-      }]
       return {
-        data4: JSON.parse(JSON.stringify(data)),
-        data2: data,
         filterText: '',
+        activeRole: '',
+        roleKeys: [],
         defaultProps: {
           children: 'children',
-          label: 'label'
+          label: 'menu_name',
+          disabled: 'status'
         }
       }
     },
 
     methods: {
-      ...mapActions(['FeachList']),
+      ...mapActions(['FeachList', 'updateRole']),
       filterNode(value, data) {
         if (!value) return true
         return data.label.indexOf(value) !== -1
@@ -144,6 +110,62 @@
               <el-button size='mini' type='text' on-click={ () => this.remove(node, data) }>Delete</el-button>
             </span>
           </span>)
+      },
+      // 当选择不同角色的时候 需要 展示不同角色权限
+      handleChange() {
+        if (this.activeRole !== '') {
+          // this.$refs[this.activeRole][0].setCheckedKeys([])
+          this.$nextTick(() => {
+            const active_menu = this.rolelist.filter(role => role.id === this.activeRole)[0]['menu_id']
+            this.$refs[this.activeRole][0].setCheckedKeys(active_menu)
+          })
+        }
+      },
+      delRoleMenu(role_id) {
+        this.$confirm('此操作将永久删除角色权限以及角色下的所有用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      },
+      handleCheckChange(data, checked, indeterminate) {
+        const old_menu = this.rolelist.filter(role => role.id === this.activeRole)[0]['menu_id']
+        const checkedkeys = this.$refs[this.activeRole][0].getCheckedKeys()
+
+        if (JSON.stringify(old_menu) !== JSON.stringify(checkedkeys)) {
+          this.$confirm('此操作将更改角色下的权限模块, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.updateRole({ 'id': this.activeRole, 'menu_id': JSON.stringify(checkedkeys) })
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+          }).catch(() => {
+            this.$refs[this.activeRole][0].setCheckedKeys(old_menu)
+            this.$message({
+              type: 'info',
+              message: '已取消操作'
+            })
+          })
+        }
+      }
+    },
+    watch: {
+      filterText(val) {
+        this.$refs.tree.filter(val)
       }
     }
   }
@@ -160,10 +182,8 @@
 	    font-size: 14px;
 	    font-weight: bold;
 	}
-	.row-tb-col{
-		overflow: hidden;
-	    text-overflow: ellipsis;
-	    white-space: nowrap;
+	.del-font{
+    font-size: 1rem;
 	}
 
 </style>

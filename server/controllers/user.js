@@ -115,7 +115,6 @@ class UserController{
   }
 
 
-
     /**
     * 根据roleid 返回对应的 menulist rolelist
     * ctx 请求条件
@@ -124,19 +123,15 @@ class UserController{
      static async getRoleMenu(ctx){
         const { role } = ctx.request.body;
         if(role == undefined || role == ""){ //没有参数设置的时候获取所有的 角色 模块列表
-            let rolelist = await Model.getallrolemenu()
+            let rolelist = await Model.getallrole()
                 .then(res => {
                     return  res
                 });
             await Model.getMenuNameById().then(menu =>{
-                let mapval = {"rolelist":[],"menulist":[]};
-
-                    rolelist.forEach((r,v)=>{
-                        mapval.rolelist.push(r);
-                    })
-                    menu.forEach((m,v) => {
-                        mapval.menulist.push(m);
-                    })
+                let mapval = {
+                  "rolelist":rolelist,
+                  "menulist":menu,
+                };
                 ctx.jsonReturn({
                     code:200,
                     data:JSON.parse(JSON.stringify(mapval))
@@ -163,36 +158,29 @@ class UserController{
             })
 
         }
-
    }
 
-  /* static async getRoleMenu(ctx){
-        const { role } = ctx.request.body;
-        await Model.getrolemenu(role)
-            .then(res=>{
+  static async updateRoleMenu(ctx){
+    const { id,menu_id } = ctx.request.body;
+    await Model.updaterole(id,menu_id)
+      .then(res=>{
+        return Model.getallrole()
+      })
+      .then(res=>{
+        ctx.jsonReturn({
+          code:200,
+          data:JSON.parse(JSON.stringify(res))
+        });
 
-                var res = JSON.parse(JSON.stringify(res));
-                if(res.length == 0){
-
-                    ctx.jsonReturn({
-                        code:1,
-                        message:'改角色暂无分配权限，请联系管理员'
-                    });
-              }else{
-                    let rolemenu = Model.getMenuNameById(res[0]['menu_id']);
-                    return rolemenu;
-               }
-
+      }).catch(err=>{
+        ctx.jsonReturn({
+          code:1,
+          message:'操作失败:'+err
         })
-        .then(rolemenu=>{
-            ctx.jsonReturn({
-                code:200,
-                data:JSON.parse(JSON.stringify(rolemenu)),
-           });
-        })
+      })
 
-   }
-    */
+  }
+
     static async getUserList(ctx){
       const{ current_page=1, page_size=20 } = ctx.request.body;
       let page = {};

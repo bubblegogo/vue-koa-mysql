@@ -1,12 +1,5 @@
 import request from '@/utils/request'
 
-// feach role menu
-export function feachlist() {
-  return request({
-    url: '/user/get_role_menu',
-    method: 'post'
-  })
-}
 // feach user list
 export function feachuserlist(params) {
   return request({

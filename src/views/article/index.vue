@@ -76,27 +76,19 @@
         :total="pageobj.total">
       </el-pagination>
     </div>
-
-    <ss-form-input :key-value="formObject"></ss-form-input>
   </div>
 </template>
 
 <script>
   import { article_type } from '@/utils/constant'
   import { mapGetters, mapActions } from 'vuex'
-  import ssFormInput from '@/Components/Dialog/formuser'
   export default {
     components: {
-      ssFormInput
     },
     data() {
       return {
         list: null,
         listLoading: false,
-        formObject: {
-          formVisible: false,
-          form: {}
-        },
         options: article_type(),
         inputval: '',
         selectval: ''

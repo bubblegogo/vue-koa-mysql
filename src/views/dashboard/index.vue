@@ -99,11 +99,8 @@
                         <el-table-column width="60">
                             <template slot-scope="scope">
                                 <i class="el-icon-edit" @click="HandleEdit(scope.row.id)"></i>
-
                                 <i v-if="!scope.row.status" class="el-icon-delete" @click="HandleClick(scope.row)"></i>
                                 <i v-else  class="el-icon-back" @click="HandleClick(scope.row)"></i>
-
-
                             </template>
                         </el-table-column>
 

@@ -87,9 +87,9 @@ let getrolemenu = function(value){
 }
 
 //获取所有的角色以及列表菜单
-let getallrolemenu =function(){
-    let _sql = `select rm.role_id ,rm.menu_id, rm.menu_name , GROUP_CONCAT(menu.menu_name) as mname from role_menu rm LEFT JOIN menu on FIND_IN_SET(menu.menu_id,rm.menu_id) GROUP BY rm.role_id`;
-    return query(_sql)
+let getallrole =function(){
+  let _sql = `select * from role_menu`;
+  return query(_sql)
 }
 
 
@@ -98,11 +98,17 @@ let getMenuNameById = function(value){
     let _sql = ''
 
     if(value){
-        _sql =  `select * from menu where menu_id in (${value})`;
+        _sql =  `select menu_id as id ,menu_id,menu_name,\`key\`,status,parent_id from menu where menu_id in (${value})`;
     }else{
-        _sql =  `select * from menu`;
+        _sql =  `select menu_id as id ,menu_id,menu_name,\`key\`,status,parent_id from menu`;
     }
     return query(_sql)
+}
+
+// 根据ID 更新 角色 权限
+let updaterole= function(id,menuid){
+  let _sql = `update role_menu set menu_id = "${menuid}" where id = "${id}";`
+  return query(_sql)
 }
 
 
@@ -318,8 +324,10 @@ module.exports = {
     getinfoById,
     upuserstatus,
     getrolemenu,
-    getallrolemenu,
+    getallrole,
     getMenuNameById,
+
+    updaterole,
     getuserlist,
     getsumuser,
     updateUserToken,

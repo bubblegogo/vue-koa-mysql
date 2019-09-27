@@ -41,17 +41,46 @@ export const constantRouterMap = [
 
 export const asyncRouterMap = [
   {
+    path: '/admin',
+    component: Layout,
+    meta: { title: 'Manager', icon: 'example', role: [1] },
+    children: [
+      {
+        path: 'menumanager',
+        name: 'Menu',
+        component: () => import('@/views/admin/sidemenu/index'),
+        meta: { title: 'Menu', icon: 'example', role: [11] }
+      },
+      {
+        path: 'usermanager',
+        name: 'User',
+        component: () => import('@/views/admin/usermanager/index'),
+        meta: { title: 'User', icon: 'example', role: [12] }
+      },
+      {
+        /* 这种写法 自动将 参数转换成 组件属性
+        path: 'edituser:id',
+        props:true,*/
+        path: 'edituser',
+        name: 'EditUser',
+        component: () => import('@/views/admin/usermanager/edituser'),
+        props: (route) => ({ id: route.query.id }), // 通过函数把值进行转换成组件属性
+        hidden: true
+      }
+    ]
+  },
+  {
     path: '/article',
     component: Layout,
     redirect: '/article/list',
     name: 'Article',
-    meta: { title: 'Article', icon: 'example', role: [1] },
+    meta: { title: 'Article', icon: 'example', role: [2] },
     children: [
       {
         path: 'list',
         name: 'ArticleList',
         component: () => import('@/views/article/index'),
-        meta: { title: 'ArticleList', icon: 'table', role: [2] }
+        meta: { title: 'ArticleList', icon: 'table', role: [21] }
       },
       {
         /* 这种写法 自动将 参数转换成 组件属性
@@ -70,19 +99,19 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'example', role: [1] },
+    meta: { title: 'Example', icon: 'example', role: [3] },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table', role: [2] }
+        meta: { title: 'Table', icon: 'table', role: [31] }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree', role: [3] }
+        meta: { title: 'Tree', icon: 'tree', role: [32] }
       }
     ]
   },
@@ -96,35 +125,6 @@ export const asyncRouterMap = [
         name: 'Form',
         component: () => import('@/views/form/index'),
         meta: { title: 'Form', icon: 'example' }
-      }
-    ]
-  },
-  {
-    path: '/admin',
-    component: Layout,
-    meta: { title: 'Manager', icon: 'example' },
-    children: [
-      {
-        path: 'menumanager',
-        name: 'Menu',
-        component: () => import('@/views/admin/sidemenu/index'),
-        meta: { title: 'Menu', icon: 'example' }
-      },
-      {
-        path: 'usermanager',
-        name: 'User',
-        component: () => import('@/views/admin/usermanager/index'),
-        meta: { title: 'User', icon: 'example' }
-      },
-      {
-        /* 这种写法 自动将 参数转换成 组件属性
-        path: 'edituser:id',
-        props:true,*/
-        path: 'edituser',
-        name: 'EditUser',
-        component: () => import('@/views/admin/usermanager/edituser'),
-        props: (route) => ({ id: route.query.id }), // 通过函数把值进行转换成组件属性
-        hidden: true
       }
     ]
   },
