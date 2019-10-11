@@ -5,7 +5,7 @@ class ArticleController{
     static async createArticle(ctx){
         //es6 解构
         //这里解构需要和 ctx.request.body 的对象属性相同
-        const { title,content,id,typeid,filesrc,create_time } = ctx.request.body;
+        const { title,content,description,id,typeid,filesrc,create_time } = ctx.request.body;
 
         let time = moment().format('YYYY-MM-DD HH:mm')
 
@@ -27,7 +27,7 @@ class ArticleController{
                 message:'类型不能为空'
             })
         }
-        await Model.saveArticlModel([title,id,content,create_time,typeid,filesrc,time,1])
+        await Model.saveArticlModel([title,id,content,description,create_time,typeid,filesrc,time,1])
           .then(res => {
               if(res){
                 ctx.jsonReturn({
@@ -42,67 +42,6 @@ class ArticleController{
                 })
             }
           })
-
-
-        /*await Model.selectTypeAllModel()
-            .then(res=>{
-                var selectInfoRes = JSON.parse(JSON.stringify(res))
-                if(selectInfoRes.length <= 0){
-                    ctx.jsonReturn({
-                        code:1,
-                        message:'暂时无栏目，先添加栏目'
-                    })
-                }else{
-                    var typeArr = [];
-                    selectInfoRes.forEach(function(item){
-                        typeArr.push(item.id)
-                    });
-                    function in_array(needle, haystack) {
-                        for(var i in haystack) {
-                         if(haystack[i] == needle) {
-                          return true;
-                         }
-                        }
-                        return false;
-                    }
-                    if(!in_array(type,typeArr)){
-                        ctx.jsonReturn({
-                            code:1,
-                            message:'栏目id不合法'
-                        })
-                    }
-                    let seleInfo =  Model.selectTitleById(title,type);
-                    return seleInfo;
-                }
-            })
-            .then(seleInfo=>{
-                var seIn = JSON.parse(JSON.stringify(seleInfo))
-                if(seIn.length){
-                    ctx.jsonReturn({
-                        code:1,
-                        message:'该栏目下已存在此文章'
-                    })
-                }else{
-                    let addRes = Model.saveArticlModel([type,title,tags,thumb,content,time])
-                    if(addRes){
-                        ctx.jsonReturn({
-                            code:2,
-                            message:'添加文章成功'
-                        })
-                    }else{
-                        ctx.jsonReturn({
-                            code:1,
-                            message:'失败'
-                        })
-                    }
-                }
-            })
-            .catch(err=>{
-                ctx.jsonReturn({
-                    code:1,
-                    message:'添加失败,服务器异常'
-                })
-            })*/
 
     }
     static async getArticleList(ctx){

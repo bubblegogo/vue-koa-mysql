@@ -136,9 +136,9 @@ let selectAllArticle = function(id,current_page,page_size){
   let _sql = ''
   let page = pageObj(current_page,page_size)
   if(id == 1){
-    _sql = `select * from article where status = 1 `;
+    _sql = `select a.*,u.user_name from article a LEFT JOIN user u on a.user_id = u.id where a.status = 1 `;
   }else{
-    _sql = `select * from article where status = 1 and user_id = "${id}" `;
+    _sql = `select a.*,u.user_name from article a LEFT JOIN user u on a.user_id = u.id where a.status = 1 and user_id = "${id}" `;
   }
 
   _sql += ` limit ${page.st_num}, ${page.ed_num} `
@@ -162,7 +162,7 @@ let selectArticleById = function(id){
 }
 //添加文章
 let saveArticlModel = function(value){
-  let _sql  = "insert into article (title,user_id,content,create_time,typeid,filesrc,update_time,status) values(?,?,?,?,?,?,?,?)"
+  let _sql  = "insert into article (title,user_id,content,description,create_time,typeid,filesrc,update_time,status) values(?,?,?,?,?,?,?,?,?)"
   return query(_sql,value)
 }
 
