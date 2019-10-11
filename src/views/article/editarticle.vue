@@ -85,7 +85,12 @@
           'id': this.$store.state.user.obj.id,
           ...this.articledetail
         }
-        this.SaveArticel(param)
+        if (this.id === 0) { // 表示新增文档 否则就是编辑文档
+          this.SaveArticel(param)
+        } else {
+          console.log('article edit ',param)
+        }
+
         this.$message({
           message: '添加成功',
           type: 'success',

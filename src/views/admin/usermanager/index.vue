@@ -32,7 +32,7 @@
       <el-table-column align="center" prop="created_at" label="Display_time" >
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span>{{scope.row.update_time}}</span>
+          <span>{{scope.row.update_time | timeFormat}}</span>
         </template>
       </el-table-column>
 
@@ -66,6 +66,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
+  import { timeStampToYMd } from '@/utils/date'
   export default {
     components: {
     },
@@ -88,6 +89,9 @@
       // 用户角色过滤
       rolesFilter(roles) {
         return roles === 1 ? 'administrator' : 'user'
+      },
+      timeFormat(timestr) {
+        return timeStampToYMd(timestr)
       }
     },
 

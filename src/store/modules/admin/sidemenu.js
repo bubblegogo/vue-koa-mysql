@@ -22,7 +22,7 @@ const sidemenu = {
     // 树状结构迭代
     DataFormatTree({ commit, state, dispatch }, params) {
       let treeNode = []
-      let treeIterator = (params, treeNode) => {
+      const treeIterator = (params, treeNode) => {
         if (!treeNode.length) {
           const root = params.filter(item => item.parent_id === -1)
           treeNode = JSON.parse(JSON.stringify(root))

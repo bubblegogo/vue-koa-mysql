@@ -30,7 +30,7 @@
 
       <el-table-column  :label="$t('article.user')" align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.user_id}}</span>
+          <span>{{scope.row.user_name}}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('article.type')" align="center">
@@ -48,7 +48,7 @@
       <el-table-column align="center" :label="$t('article.createtime')">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span>{{scope.row.create_time  }}</span>
+          <span>{{scope.row.create_time | timeFormat }}</span>
         </template>
       </el-table-column>
 
@@ -82,6 +82,8 @@
 <script>
   import { article_type } from '@/utils/constant'
   import { mapGetters, mapActions } from 'vuex'
+  import { timeStampToYMd } from '@/utils/date'
+
   export default {
     components: {
     },
@@ -104,6 +106,9 @@
           str = content
         }
         return str
+      },
+      timeFormat(timestr) {
+        return timeStampToYMd(timestr)
       }
     },
 
