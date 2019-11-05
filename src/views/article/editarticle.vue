@@ -79,17 +79,14 @@
       }
     },
     methods: {
-      ...mapActions(['FeachArticleDetail', 'SaveArticel']),
+      ...mapActions(['FeachArticleDetail', 'SaveOrEditArticel']),
       onSubmit() {
         const param = {
-          'id': this.$store.state.user.obj.id,
+          'user_id': this.$store.state.user.obj.id,
           ...this.articledetail
         }
-        if (this.id === 0) { // 表示新增文档 否则就是编辑文档
-          this.SaveArticel(param)
-        } else {
-          console.log('article edit ',param)
-        }
+        // if id == 0 add  else edit  表示新增文档 否则就是编辑文档
+        this.SaveOrEditArticel(param)
 
         this.$message({
           message: '添加成功',

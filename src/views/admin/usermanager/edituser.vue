@@ -19,8 +19,8 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">{{$t('confim.save')}}</el-button>
-        <el-button>{{$t('confim.cancel')}}</el-button>
+        <el-button type="primary" @click="onSubmit">{{$t('confirm.save')}}</el-button>
+        <el-button>{{$t('confirm.cancel')}}</el-button>
       </el-form-item>
     </el-form>
   </div>

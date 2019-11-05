@@ -68,7 +68,7 @@ const sidemenu = {
         }).catch(error => {
           reject(error)
         })
-      })
+      }).catch((e) => {})
     },
     updateRole({ commit, state }, param) {
       return new Promise((resolve, reject) => {
@@ -81,7 +81,7 @@ const sidemenu = {
         }).catch(error => {
           reject(error)
         })
-      })
+      }).catch((e) => {})
     }
   }
 }

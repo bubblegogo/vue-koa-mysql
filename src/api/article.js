@@ -18,13 +18,21 @@ export function feacharticledetail(id) {
     }
   })
 }
-// save article
-export function savearticle(param) {
-  return request({
-    url: '/article/save_article',
-    method: 'post',
-    data: param
-  })
+// save or edit  article
+export function saveoreditarticle(param) {
+  if (param.id) {
+    return request({
+      url: '/article/edit_article',
+      method: 'post',
+      data: param
+    })
+  } else {
+    return request({
+      url: '/article/save_article',
+      method: 'post',
+      data: param
+    })
+  }
 }
 // delete articel
 export function deleteArticleById(param) {

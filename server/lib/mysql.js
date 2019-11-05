@@ -132,17 +132,22 @@ let pageObj = function(current_page,page_size){
 /********* article list api *********/
 
 //获取所有文章
-let selectAllArticle = function(id,current_page,page_size){
-  let _sql = ''
+let selectAllArticle = function(id,typeid,search,current_page,page_size){
   let page = pageObj(current_page,page_size)
-  if(id == 1){
-    _sql = `select a.*,u.user_name from article a LEFT JOIN user u on a.user_id = u.id where a.status = 1 `;
-  }else{
-    _sql = `select a.*,u.user_name from article a LEFT JOIN user u on a.user_id = u.id where a.status = 1 and user_id = "${id}" `;
+
+  let _sql = `select a.*,u.user_name from article a LEFT JOIN user u on a.user_id = u.id where a.status = 1 `;
+
+  if(id != 1) { //id  = 1  为超级管理员
+    _sql += `and a.user_id = "${id}" `
+  }
+  if(typeid != ''){
+    _sql += `and a.typeid = "${typeid}" `
+  }
+  if(search != ''){
+    _sql += `and a.title like "%${search}%" `
   }
 
   _sql += ` limit ${page.st_num}, ${page.ed_num} `
-
   return query(_sql)
 }
 let selectAllArt = function(id,current_page,page_size){
@@ -157,16 +162,21 @@ let selectAllArt = function(id,current_page,page_size){
 
 //根据id查找文章
 let selectArticleById = function(id){
-  let _sql = `select * from article where id = "${id}" `;
+  let _sql = `select id,user_id,title,description,content,filesrc,\`status\`,typeid,date_format(create_time, '%Y-%m-%d') as create_time,date_format(update_time, '%Y-%m-%d') as update_timefrom from article where id = "${id}" `;
   return query(_sql);
 }
-//添加文章
+//add article
 let saveArticlModel = function(value){
   let _sql  = "insert into article (title,user_id,content,description,create_time,typeid,filesrc,update_time,status) values(?,?,?,?,?,?,?,?,?)"
   return query(_sql,value)
 }
+//modify article
+let updateArticleModel = function(value){
+  let _sql = "update article set typeid = ?,title = ?,content = ?,update_time = ?,create_time = ?,description = ?,filesrc = ? where id =?"
+  return query(_sql,value)
+}
 
-//删除文章
+//del article
 let delArticleById = function(id,status){
   let _sql = `update article set status = "${status}" where id = "${id}"`;
   return query(_sql)
@@ -222,11 +232,7 @@ let editTypeByIdModel = function(value){
 
 
 
-//文章编辑
-let updateArticleModel = function(value){
-  let _sql = "update article set typeid = ?,title = ?,tags = ?,thumb = ? ,content = ?,time = ? where id =?"
-  return query(_sql,value)
-}
+
 //文章公开和禁止切换
 let updateArticleStateModel = function(value){
   let _sql = "update article set is_public = ? where id = ?"
@@ -338,6 +344,7 @@ module.exports = {
     selectArticleById,
     saveArticlModel,
     delArticleById,
+    updateArticleModel,
 
     // 获取代办事情列表
     selectAllTodo,
@@ -353,7 +360,7 @@ module.exports = {
     selectTitleById,
 
 
-    updateArticleModel,
+
     updateArticleStateModel,
 
     selectArticleByTypeIdModel,

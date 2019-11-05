@@ -22,8 +22,6 @@ export function formatTime(time, option) {
     return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
 }
-
-
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null
@@ -62,8 +60,8 @@ export function parseTime(time, cFormat) {
  * @param cFormat 转换格式 默认 YYYY-MM-DD
  * @returns {string}
  */
-export function timeStampToYMd(timestr,cFormat) {
+export function timeStampToYMd(timestr, cFormat) {
   const format = cFormat || 'YYYY-MM-DD'
 
-  return  moment(timestr).format(format)
+  return moment(timestr).format(format)
 }

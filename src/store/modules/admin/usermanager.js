@@ -23,7 +23,7 @@ const usermanager = {
         }).catch(error => {
           reject(error)
         })
-      })
+      }).catch((e) => {})
     },
     FeachUserDetail({ commit, state }, id) {
       return new Promise((resolve, reject) => {
@@ -33,7 +33,7 @@ const usermanager = {
         }).catch(error => {
           reject(error)
         })
-      })
+      }).catch((e) => {})
     },
     DelUser({ dispatch, state }, params) {
       return new Promise((resolve, reject) => {
@@ -43,7 +43,7 @@ const usermanager = {
         }).catch(error => {
           reject(error)
         })
-      })
+      }).catch((e) => {})
     }
 
   }

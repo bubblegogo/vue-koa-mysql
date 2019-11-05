@@ -1,4 +1,4 @@
-import { feacharticlelist, feacharticledetail, savearticle, deleteArticleById } from '@/api/article'
+import { feacharticlelist, feacharticledetail, saveoreditarticle, deleteArticleById } from '@/api/article'
 const usermanager = {
   state: {
     articlelist: [],
@@ -13,16 +13,16 @@ const usermanager = {
     }
   },
   actions: {
-    FeachArticleList({ commit, state, rootState, dispatch }) {
+    FeachArticleList({ commit, state, rootState, dispatch }, param) {
       return new Promise((resolve, reject) => {
-        feacharticlelist({ id: rootState.user.obj.id, current_page: rootState.pages.pageobj.current_page, page_size: rootState.pages.pageobj.page_size }).then((reponse) => {
+        feacharticlelist(param).then((reponse) => {
           dispatch('setTotalPage', reponse.data.page)
           commit('SET_ARTICLE_LIST', reponse.data.list)
           resolve()
         }).catch(error => {
           reject(error)
         })
-      })
+      }).catch((e) => {})
     },
     FeachArticleDetail({ commit, state }, id) {
       return new Promise((resolve, reject) => {
@@ -32,26 +32,25 @@ const usermanager = {
         }).catch(error => {
           reject(error)
         })
-      })
+      }).catch((e) => {})
     },
-    SaveArticel({ commit, state, dispatch }, param) {
+    SaveOrEditArticel({ commit, state, dispatch }, param) {
       return new Promise((resolve, reject) => {
-        savearticle(param).then((reponse) => {
+        saveoreditarticle(param).then((reponse) => {
           resolve()
         }).catch(error => {
           reject(error)
         })
-      })
+      }).catch((e) => {})
     },
     DelArticle({ dispatch, state, rootState }, param) {
       return new Promise((resolve, reject) => {
         deleteArticleById(param).then((reponse) => {
-          dispatch('FeachArticleList') // 获取更新后的用户列表信息
           resolve()
         }).catch(error => {
           reject(error)
         })
-      })
+      }).catch((e) => {})
     }
 
   }

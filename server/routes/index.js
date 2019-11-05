@@ -62,15 +62,18 @@ router.post('/user/delete_byid',User.deleteUser)
 //退出
 router.post('/user/logout',User.getLogOut)
 
+// edit post/get
 
-//文章列表
+//get list
 router.post('/article/get_article_list',checkToken,Article.getArticleList)
-//查找文章
+//get list by id
 router.post('/article/get_article',checkToken,Article.getArticle)
-//添加文章
+//add article
 router.post('/article/save_article',checkToken,Article.createArticle)
-//文章删除
+//del
 router.post('/article/del_article',checkToken,Article.delArticleById)
+//edit
+router.post('/article/edit_article',checkToken,Article.editArticle)
 
 
 //获取代办事情列表
@@ -82,6 +85,9 @@ router.post('/todo/up_todo_byid',checkToken,ToDo.upTodoById)
 //文件上传至 服务器
 router.post('/file/upload',File.fileupload)
 
+
+
+
 //添加栏目
 router.post('/add_type',checkToken,Type.createType)
 //查询所有栏目
@@ -91,13 +97,8 @@ router.post('/del_type',checkToken,Type.delectTypeById);
 //修改栏目
 router.post('/edit_type',checkToken,Type.editTypeById);
 
-
-
-//编辑文章
-router.post('/edit_article',checkToken,Article.editArticle)
 //文章状态
 router.post('/update_state',checkToken,Article.updateState)
-
 
 //推荐
 router.post('/set_recommend',checkToken,Article.setRecommend)

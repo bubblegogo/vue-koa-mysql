@@ -5,7 +5,7 @@ class FrontController{
     static async articleList(ctx){
         //es6 解构
         //这里解构需要和 ctx.request.body 的对象属性相同
-        const { tid,page } = ctx.request.body;    
+        const { tid,page } = ctx.request.body;
         let time = moment().format('YYYY-MM-DD HH:mm')
         if(!tid || isNaN(tid)){
             ctx.jsonReturn({
@@ -16,7 +16,7 @@ class FrontController{
         if(!page || isNaN(page)){
             page = 1
         }
-       
+
         await Model.selectArticleByTypeIdModel(tid,page)
             .then(res=>{
                 var selectInfoRes = JSON.parse(JSON.stringify(res))
@@ -27,22 +27,22 @@ class FrontController{
                     })
                 }else{
                    ctx.jsonReturn({
-                       code:2,
+                       code:200,
                        data:{
                            list:selectInfoRes
                        },
                        message:'ok'
                    })
-                   
+
                 }
             })
             .catch(err=>{
                 ctx.jsonReturn({
                     code:1,
                     message:'添加失败,服务器异常'
-                }) 
-            })  
-                     
+                })
+            })
+
     }
     //查询阅读数前4的文章
     static async getMostConstuList(ctx){
@@ -58,7 +58,7 @@ class FrontController{
                 var selectInfoRes = JSON.parse(JSON.stringify(res))
                 if(selectInfoRes.length <= 0){
                     ctx.jsonReturn({
-                        code:2,
+                        code:200,
                         data:{
                             list:[]
                         },
@@ -66,13 +66,13 @@ class FrontController{
                     })
                 }else{
                    ctx.jsonReturn({
-                       code:2,
+                       code:200,
                        data:{
                            list:selectInfoRes
                        },
                        message:'ok'
                    })
-                   
+
                 }
             })
     }
@@ -83,7 +83,7 @@ class FrontController{
                 var selectInfoRes = JSON.parse(JSON.stringify(res))
                 if(selectInfoRes.length <= 0){
                     ctx.jsonReturn({
-                        code:2,
+                        code:200,
                         data:{
                             list:[]
                         },
@@ -91,13 +91,13 @@ class FrontController{
                     })
                 }else{
                    ctx.jsonReturn({
-                       code:2,
+                       code:200,
                        data:{
                            list:selectInfoRes
                        },
                        message:'ok'
                    })
-                   
+
                 }
             })
     }
@@ -110,7 +110,7 @@ class FrontController{
                 var selectInfoRes = JSON.parse(JSON.stringify(res))
                 if(selectInfoRes.length <= 0){
                     ctx.jsonReturn({
-                        code:2,
+                        code:200,
                         data:{
                             list:[]
                         },
@@ -118,19 +118,19 @@ class FrontController{
                     })
                 }else{
                    ctx.jsonReturn({
-                       code:2,
+                       code:200,
                        data:{
                            list:selectInfoRes
                        },
                        message:'ok'
                    })
-                   
+
                 }
             })
     }
     static async updateConsult(ctx){
         const{id,consult} = ctx.request.body;
-       
+
         if(!id || isNaN(id)){
             ctx.jsonReturn({
                 code:1,
@@ -141,7 +141,7 @@ class FrontController{
             .then(res=>{
                 if(res){
                     ctx.jsonReturn({
-                        code:2,
+                        code:200,
                         message:'ok'
                     })
                 }else{
@@ -159,7 +159,7 @@ class FrontController{
                 var selectInfoRes = JSON.parse(JSON.stringify(res))
                 if(selectInfoRes.length <= 0){
                     ctx.jsonReturn({
-                        code:2,
+                        code:200,
                         data:{
                             list:[]
                         },
@@ -167,13 +167,13 @@ class FrontController{
                     })
                 }else{
                    ctx.jsonReturn({
-                       code:2,
+                       code:200,
                        data:{
                            list:selectInfoRes
                        },
                        message:'ok'
                    })
-                   
+
                 }
             })
     }
@@ -193,13 +193,13 @@ class FrontController{
                     })
                 }else{
                    ctx.jsonReturn({
-                       code:2,
+                       code:200,
                        data:{
                            list:selectInfoRes
                        },
                        message:'ok'
                    })
-                   
+
                 }
             })
     }
@@ -215,13 +215,13 @@ class FrontController{
                     })
                 }else{
                    ctx.jsonReturn({
-                       code:2,
+                       code:200,
                        data:{
                            list:selectInfoRes
                        },
                        message:'ok'
                    })
-                   
+
                 }
             })
     }
@@ -236,14 +236,14 @@ class FrontController{
                 var selectInfoRes = JSON.parse(JSON.stringify(res))
                 if(selectInfoRes.length <= 0){
                     ctx.jsonReturn({
-                        code:2,
+                        code:200,
                         data:{
                             list:[]
                         },
                         message:'无数据'
                     })
                 }else{
-                    
+
                     // [
                     //     {
                     //         type:'nodejs',
@@ -263,19 +263,19 @@ class FrontController{
                         newList.push(itemArr)
                     })
                    ctx.jsonReturn({
-                       code:2,
+                       code:200,
                        data:{
                            list:newList
                        },
                        message:'ok'
                    })
-                   
+
                 }
             })
     }
     static async searchArticleList(ctx){
         const {page,title} = ctx.request.body;
-      
+
         if(!page || isNaN(page)){
             ctx.jsonReturn({
                 code:1,
@@ -292,18 +292,18 @@ class FrontController{
                     })
                 }else{
                    ctx.jsonReturn({
-                       code:2,
+                       code:200,
                        data:{
                            list:selectInfoRes
                        },
                        message:'ok'
                    })
-                   
+
                 }
             })
 
     }
-   
-   
+
+
 }
 module.exports = FrontController;

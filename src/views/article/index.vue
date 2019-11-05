@@ -2,7 +2,8 @@
   <div class="app-container">
     <div class="filter">
       <div  class="searchIn">
-        <el-select placeholder="请选择类型" v-model="selectval">
+        <el-select placeholder="请选择类型" clearable v-model="selectval" @change="handleChange">
+
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -10,7 +11,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-input placeholder="请输入内容" v-model="inputval"></el-input>
+        <el-input placeholder="请输入内容" clearable @change="handleChange" v-model="inputval"></el-input>
       </div>
       <el-button @click="HandleClick(0)" >{{$t('article.addarticle')}}</el-button>
 
@@ -92,8 +93,8 @@
         list: null,
         listLoading: false,
         options: article_type(),
-        inputval: '',
-        selectval: ''
+        selectval: '',
+        inputval: ''
       }
     },
     filters: {
@@ -114,28 +115,47 @@
 
     created() {
       // 获取用户列表
-      this.FeachArticleList()
+      this.FeachArticleList(this.feachParam())
     },
     computed: {
       ...mapGetters(['articlelist', 'pageobj'])
     },
+
     methods: {
       ...mapActions(['FeachArticleList', 'DelArticle', 'setCurrentPage', 'setPageSize']),
       // 编辑与添加新用户
       HandleClick(id) {
         this.$router.push({ path: 'editArticle', query: { id }})
       },
+      feachParam() {
+        const param = {
+          id: this.$store.state.user.obj.id,
+          current_page: this.pageobj.current_page,
+          page_size: this.pageobj.page_size,
+          typeid: this.selectval,
+          search: this.inputval
+        }
+        return param
+      },
       HandleDel(id) {
         this.DelArticle({ 'id': id, 'status': 0 })
+        // 获取列表
+        this.FeachArticleList(this.feachParam())
       },
+      // search select option or input val
+      handleChange(val) {
+        this.FeachArticleList(this.feachParam())
+      },
+
       handleSizeChange(val) {
         this.setPageSize(val)
-        this.FeachArticleList()
+        this.FeachArticleList(this.feachParam())
       },
       handleCurrentChange(val) {
         this.setCurrentPage(val)
-        this.FeachArticleList()
+        this.FeachArticleList(this.feachParam())
       }
+
     }
   }
 </script>
