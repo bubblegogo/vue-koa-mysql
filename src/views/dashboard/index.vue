@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard-container">
         <el-row :gutter="20">
-            <el-col :span="8">
+            <el-col :span="8" :xs="{span: 24, offset: 0}">
                 <el-row>
                     <el-col>
                         <el-card shadow="hover" class="mgb20">
@@ -42,9 +42,10 @@
                     </el-col>
                 </el-row>
             </el-col>
-            <el-col :span="16">
+            <el-col :span="16" :xs="{span: 24, offset: 0}">
                 <el-row :gutter="20" class="mgb20">
-                    <el-col :span="8">
+
+                    <el-col :span="8" :xs="{span: 24, offset: 0}">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-1">
                                 <i class="el-icon-view grid-con-icon"></i>
@@ -55,7 +56,8 @@
                             </div>
                         </el-card>
                     </el-col>
-                    <el-col :span="8">
+
+                    <el-col :span="8" :xs="{span: 24, offset: 0}">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-2">
                                 <i class="el-icon-message grid-con-icon"></i>
@@ -66,7 +68,7 @@
                             </div>
                         </el-card>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="8" :xs="{span: 24, offset: 0}">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-3">
                                 <i class="el-icon-goods grid-con-icon"></i>
@@ -233,9 +235,10 @@
     }
 
     .user-avator {
-        width: 120px;
-        height: 120px;
+        width: 100%;
         border-radius: 50%;
+        max-width: 120px;
+        max-height: 120px;
     }
 
     .user-info-cont {
