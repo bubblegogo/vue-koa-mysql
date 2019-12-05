@@ -39,6 +39,7 @@ export const constantRouterMap = [
   { path: '/404', redirect: '/404', hidden: true }
 ]
 
+
 export const asyncRouterMap = [
   {
     path: '/admin',
@@ -116,6 +117,27 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/echart',
+    component: Layout,
+    redirect: '/echart/mixchart',
+    name: 'Chart',
+    meta: { title: 'mixChart', icon: 'example', role: [4] },
+    children: [
+      {
+        path: 'mixchart',
+        name: 'mixChart',
+        component: () => import('@/views/chart/mixchart'),
+        meta: { title: 'mixChart', icon: 'example', role: [41] }
+      },
+      {
+        path: 'linechart',
+        name: 'lineChart',
+        component: () => import('@/views/chart/linechart'),
+        meta: { title: 'linechart', icon: 'example', role: [42] }
+      }
+    ]
+  },
+  {
     path: '/form',
     component: Layout,
     meta: { title: 'Form', icon: 'form' },
@@ -134,10 +156,9 @@ export const asyncRouterMap = [
     hidden: true
   }
 ]
-
 export default new Router({
   // mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
+  routes:constantRouterMap
 })
 
