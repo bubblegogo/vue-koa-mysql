@@ -36,3 +36,17 @@ export function logout(token) {
     data: { token }
   })
 }
+
+export function sysLog(ip, user,url) {
+  return request({
+    url: '/logger/addlogger',
+    method: 'post',
+    data: {
+      ip,
+      user,
+      url
+    }
+  })
+}
+
+

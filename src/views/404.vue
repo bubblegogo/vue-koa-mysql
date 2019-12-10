@@ -31,6 +31,7 @@ export default {
   },
   computed: {
     message() {
+      console.log('test progress')
       return '特朗普说这个页面你不能进......'
     }
   }

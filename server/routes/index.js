@@ -8,7 +8,7 @@ const Article = require('../controllers/article.js');
 const Front = require('../controllers/front.js')
 const File = require('../controllers/file.js');
 const ToDo = require('../controllers/todo.js');
-
+const Logger = require('../controllers/logger.js');
 //使用 koa-body 代替 koa-bodyparser koa-multer
 /*
 const multer = require('koa-multer');//加载koa-multer模块
@@ -62,6 +62,10 @@ router.post('/user/delete_byid',User.deleteUser)
 //退出
 router.post('/user/logout',User.getLogOut)
 
+
+//日志记录
+
+router.post('/logger/addLogger',Logger.addLogger)
 // edit post/get
 
 //get list
@@ -84,7 +88,6 @@ router.post('/todo/up_todo_byid',checkToken,ToDo.upTodoById)
 
 //文件上传至 服务器
 router.post('/file/upload',File.fileupload)
-
 
 
 

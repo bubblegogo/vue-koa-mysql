@@ -27,7 +27,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   devServer: {
     clientLogLevel: 'warning',
     historyApiFallback: true,
-    hot: true,
+    hot: config.dev.hot,
     compress: true,
     host: HOST || config.dev.host,
     port: PORT || config.dev.port,
@@ -55,7 +55,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       favicon: resolve('favicon.ico'),
-      title: 'vue-element-admin'
+      title: 'vue-koa-mysql'
     }),
   ]
 })

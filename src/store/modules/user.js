@@ -1,5 +1,5 @@
-import { login, logout, getInfo, getRoleMenu } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { login, logout, getInfo, getRoleMenu,sysLog } from '@/api/login'
+import { getToken, setToken, removeToken, getIP } from '@/utils/auth'
 
 const user = {
   state: {
@@ -85,13 +85,22 @@ const user = {
         })
       })
     },
-
     // 前端 登出
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
         removeToken()
         resolve()
+      })
+    },
+    SysLog({ commit, state}) {
+      let login_user = state.obj.name == null ? "login" : state.obj.name
+      return new Promise((resolve, reject) => {
+        sysLog(getIP(), login_user, window.location.href).then( response => {
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
       })
     }
   }

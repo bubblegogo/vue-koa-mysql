@@ -201,6 +201,11 @@ let upTodoById = function(id,content){
   return query(_sql)
 }
 
+let addlogger = function(value){
+  let _sql  = "insert into sys_log (ip,user,url,time) values(?,?,?,?)";
+  console.log(value)
+  return query(_sql,value)
+}
 /*
 //查询栏目下的文章是否存在
 let selectTitleById = function(title,type){
@@ -349,7 +354,10 @@ module.exports = {
     // 获取代办事情列表
     selectAllTodo,
     delTodoById,
-    upTodoById
+    upTodoById,
+
+    // 新增日志记录
+    addlogger
 
     /*
     addTypeModel,
