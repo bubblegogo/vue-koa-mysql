@@ -6,11 +6,11 @@ const onerror = require('koa-onerror')
 //const bodyparser = require('koa-bodyparser')
 const koaBody = require('koa-body') // 代替 koa-bodyparser
 const logger = require('koa-logger')
-const  static = require("koa-static");
+const static = require("koa-static")
+
 var path = require("path")
 //返回数据中间件
 const response = require('./middlewares/response.js')
-
 const index = require('./routes/index')
 
 // error handler
@@ -23,7 +23,13 @@ onerror(app)
   enableTypes:['json', 'form', 'text']
 }))*/
 
-// // http://www.ptbird.cn/koa-body.html koa-body 代替 koa-bodyparser koa-multer
+// 设置静态文件 调用
+app.use(static(
+  path.join(__dirname , '../dist')
+))
+
+
+// http://www.ptbird.cn/koa-body.html koa-body 代替 koa-bodyparser koa-multer
 app.use(koaBody({
   multipart: true,
   formidable: {

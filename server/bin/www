@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('demo:server');
 var http = require('http');
+var cp = require('child_process') // 用来创建子进程
+
 
 /**
  * Get port from environment and store in Express.
@@ -88,3 +90,4 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+cp.exec('open http://localhost:3000'); // 自动打开浏览器
