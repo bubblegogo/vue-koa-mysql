@@ -19,6 +19,7 @@ Vue.use(ElementUI, {
 })
 Vue.config.productionTip = false
 
+import '@/filter' // 引入全局过滤器
 new Vue({
   el: '#app',
   i18n,
