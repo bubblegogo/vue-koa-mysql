@@ -12,6 +12,7 @@ import { getToken } from '@/utils/auth'
 
 // 设置全局axios默认值 5000的超时验证
 axios.defaults.timeout = 5000
+
 axios.defaults.baseURL = process.env.BASE_API
 // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
@@ -27,6 +28,10 @@ service.interceptors.request.use(config => {
     config.headers['X-Token'] = getToken()
     config.headers['authorization'] = getToken()
   }
+
+  if(config.url.indexOf("curlocal") != -1){
+    config.baseURL = "";
+  }
   return config
 }, error => {
   // Do something with request error
@@ -41,7 +46,7 @@ service.interceptors.response.use(
   * code为非20000是抛错 可结合自己业务进行修改
   */
     const res = response.data
-    if (res.code !== 200) {
+    if (res.code !=null && res.code !== 200) {
       Message({
         message: res.message,
         type: 'error',
@@ -74,5 +79,4 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-console.log(service)
 export default service

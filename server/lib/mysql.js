@@ -1,6 +1,5 @@
 var mysql = require('mysql');
 var config = require('../config/index.js')
-
 //定义pool池
 var pool  = mysql.createPool({
     host     : config.dev.database.HOST,
@@ -71,7 +70,8 @@ let upuserstatus = function(id,status){
 
 //获取用户信息
 let getinfo = function(value){
-   	let _sql = `select * from user where token = ?`;
+  let _sql = `select u.*,s.ip,s.time ,s.id as sysId from user u left JOIN sys_log s on u.id = s.user where u.id in ( select id from user where token = ? ) ORDER By s.time DESC LIMIT 1`;
+ // let _sql = `select * from user where token = ?`;
     return query(_sql,value)
 }
 //根据用户id获取用户信息
@@ -203,7 +203,6 @@ let upTodoById = function(id,content){
 
 let addlogger = function(value){
   let _sql  = "insert into sys_log (ip,user,url,time) values(?,?,?,?)";
-  console.log(value)
   return query(_sql,value)
 }
 /*

@@ -1,6 +1,5 @@
-import { login, logout, getInfo, getRoleMenu,sysLog } from '@/api/login'
-import { getToken, setToken, removeToken, getIP } from '@/utils/auth'
-
+import { login, logout, getInfo, getRoleMenu,sysLog,getIpAddress } from '@/api/login'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 const user = {
   state: {
     token: getToken(),
@@ -51,7 +50,7 @@ const user = {
         getInfo(state.token).then(response => {
           const data = response.data[0] // 验证返回的roles是否是一个非空数组
 
-          commit('SET_OBJ', { 'name': data.user_name, 'id': data.id })
+          commit('SET_OBJ', { 'name': data.user_name, 'id': data.id,'ip':JSON.parse(data.ip),'time':data.time})
 
           // 根据role角色 来
           if (data.roles !== undefined) {
@@ -93,17 +92,25 @@ const user = {
         resolve()
       })
     },
+
     SysLog({ commit, state}) {
-      let login_user = state.obj.name == null ? "login" : state.obj.name
+      let login_id = state.obj.id == null ? "login" : state.obj.id
       return new Promise((resolve, reject) => {
-        sysLog(getIP(), login_user, window.location.href).then( response => {
+        getIpAddress().then(res => {
+
+          let regex = /\{(.+?)\}/g
+          let str = "'" + res.trim() + "'"
+          let options = str.match(regex)
+
+          return sysLog(options[0], login_id, window.location.href)
+        }).then(response => {
           resolve()
         }).catch(error => {
           reject(error)
         })
       })
     }
-  }
+    }
 }
 
 export default user

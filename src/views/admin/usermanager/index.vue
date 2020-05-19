@@ -66,7 +66,6 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import { timeStampToYMd } from '@/utils/date'
   export default {
     components: {
     },

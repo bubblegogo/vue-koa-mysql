@@ -17,6 +17,14 @@ module.exports = {
         pathRewrite: {
           '^/api': '/'
         }
+      },
+      '/curlocal':{
+        target: 'http://pv.sohu.com/cityjson?ie=utf-8',
+        //target: 'http://www.baidu.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/curlocal': '/'
+        }
       }
     },
 

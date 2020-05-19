@@ -12,8 +12,8 @@
                                     <div>{{roles == 1 ? 'admin':'user'}}</div>
                                 </div>
                             </div>
-                            <div class="user-info-list">上次登录时间：<span>2019-02-01</span></div>
-                            <div class="user-info-list">上次登录地点：<span>北京</span></div>
+                            <div class="user-info-list">登录时间：<span>{{obj.time | time_to_ymd}}</span></div>
+                            <div class="user-info-list">登录地点：<span>{{obj.ip.cname}}</span></div>
                         </el-card>
                         <el-card shadow="hover">
                             <div slot="header" class="clearfix">
@@ -258,10 +258,9 @@
         color: #999;
         line-height: 25px;
     }
-
-    .user-info-list span {
+   /* .user-info-list span {
         margin-left: 70px;
-    }
+    }*/
 
     .mgb20 {
         margin-bottom: 20px;
