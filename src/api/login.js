@@ -40,20 +40,14 @@ export function logout(token) {
 export function getIpAddress() {
   return request({
     url: '/curlocal',
-    method: 'get',
+    method: 'get'
   })
 }
 
-export function sysLog(ip, user,url) {
+export function sysLog(ip, user, url) {
   return request({
     url: '/logger/addlogger',
     method: 'post',
-    data: {
-      ip,
-      user,
-      url
-    }
+    data: { ip, user, url }
   })
 }
-
-

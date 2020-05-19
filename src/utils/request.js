@@ -29,8 +29,8 @@ service.interceptors.request.use(config => {
     config.headers['authorization'] = getToken()
   }
 
-  if(config.url.indexOf("curlocal") != -1){
-    config.baseURL = "";
+  if (config.url.indexOf('curlocal') !== -1) {
+    config.baseURL = ''
   }
   return config
 }, error => {
@@ -46,7 +46,7 @@ service.interceptors.response.use(
   * code为非20000是抛错 可结合自己业务进行修改
   */
     const res = response.data
-    if (res.code !=null && res.code !== 200) {
+    if (res.code != null && res.code !== 200) {
       Message({
         message: res.message,
         type: 'error',

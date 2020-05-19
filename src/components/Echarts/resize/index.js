@@ -43,12 +43,10 @@ export default {
       this._sidebar && this._sidebar.removeEventListener('transitionend', this.resizeHandler)
     },
     resizeHandler(e) {
-
-      console.log("echarts resize 47 index")
+      console.log('echarts resize 47 index')
       if (e.propertyName === 'width') {
         this.__resizeHandler()
       }
-
     }
   }
 }

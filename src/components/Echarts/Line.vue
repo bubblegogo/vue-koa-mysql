@@ -49,14 +49,14 @@ export default {
   },
   mounted() {
     // this.$nextTick(()=>{
-      this.initChart()
+    this.initChart()
     // })
   },
   computed: {
     isChartVisible() {
       setTimeout(() => {
         this.isLoading = false
-      },500)
+      }, 500)
       return !this.isLoading && !this.isOption
     }
   },

@@ -69,7 +69,6 @@
     methods: {
       toggleSideBar() {
         this.$store.dispatch('ToggleSideBar')
-
       },
       logout() {
         this.$store.dispatch('LogOut').then(() => {
