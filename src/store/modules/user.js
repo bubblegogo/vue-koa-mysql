@@ -25,7 +25,6 @@ const user = {
     SET_ROLE_NAME: (state, role_name) => {
       state.role_name = role_name
     }
-
   },
 
   actions: {
@@ -63,7 +62,7 @@ const user = {
         })
           .then(response => {
             commit('SET_ROLES', response.data.menu_id)
-            commit('SET_ROLE_NAME', response.data.menu_name)
+            commit('SET_ROLE_NAME', response.data.name)
             resolve(response)
           })
           .catch(error => {

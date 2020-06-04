@@ -15,10 +15,10 @@ let query = function( sql, values ) {
           if (err) {
             resolve( err )
           } else {
-            console.log(sql)
-
             //先把 数值与 sql 进行组装
             sql = mysql.format(sql, values);
+
+            console.log("mysql.js run sql",sql)
             // 新增把 TINY 类型的值 更改为 boolean 类型
             var options = {
               sql: sql,
@@ -98,11 +98,25 @@ let getMenuNameById = function(value){
     let _sql = ''
 
     if(value){
-        _sql =  `select menu_id as id ,menu_id,menu_name,\`key\`,status,parent_id from menu where menu_id in (${value})`;
+        _sql =  `select menu_id as id ,menu_id,name,path,status,parent_id from menu where menu_id in (${value})`;
     }else{
-        _sql =  `select menu_id as id ,menu_id,menu_name,\`key\`,status,parent_id from menu`;
+        _sql =  `select m.menu_id as id ,m.* from menu m where m.status != 1 `;
     }
     return query(_sql)
+}
+
+let insertMenu = function (value) {
+  let _sql = "insert into menu (menu_id,name,path,parent_id,hidden,component,meta) values (?,?,?,?,?,?,?)";
+  return query(_sql,value)
+}
+
+let updatemenu = function(value,id){
+  let  _sql = `update menu set meta = ${value} where menu_id = "${id}";`
+  return query(_sql)
+}
+let deletemenu = function(id){
+  let _sql = `update menu set status = 1 where menu_id = "${id}";`
+  return query(_sql)
 }
 
 // 根据ID 更新 角色 权限
@@ -336,6 +350,9 @@ module.exports = {
     getrolemenu,
     getallrole,
     getMenuNameById,
+    insertMenu,
+    updatemenu,
+    deletemenu,
 
     updaterole,
     getuserlist,

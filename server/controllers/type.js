@@ -14,7 +14,7 @@ class TypeController{
                 message:'栏目不能为空'
             })
         }
-       await Model.selectTypeModelByType(typeName)
+        await Model.selectTypeModelByType(typeName)
        .then(seleInfo=>{
         var selectInfoRes = JSON.parse(JSON.stringify(seleInfo))
 

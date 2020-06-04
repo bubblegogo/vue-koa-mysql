@@ -52,6 +52,9 @@ router.post('/user/get_role_menu',User.getRoleMenu)
 //获取单个用户角色所对应的权限
 router.post('/user/role_update',User.updateRoleMenu)
 
+//新增菜单或者更新菜单接口
+router.post('/user/menu_update',User.updateMenu)
+router.post('/user/menu_delete',User.deleteMenu)
 
 //获取用户列表
 router.post('/user/get_user_list',User.getUserList)

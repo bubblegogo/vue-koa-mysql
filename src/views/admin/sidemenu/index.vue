@@ -37,16 +37,12 @@
 	</div>
 </template>
 
-
 <script>
-  // import { constantRouterMap } from "../../../router";
-
-  let id = 1000
   import { mapGetters, mapActions } from 'vuex'
   export default {
     created() {
-      // 获取
-      this.FeachList()
+      // 在获取个人用户信息中已经请求过所有菜单列表
+      // this.FeachList()
     },
     mounted() {
       console.log('mounted mountedmountedmounted')
@@ -66,7 +62,7 @@
         roleKeys: [],
         defaultProps: {
           children: 'children',
-          label: 'menu_name',
+          label: 'name',
           disabled: 'status'
         }
       }
@@ -77,39 +73,6 @@
       filterNode(value, data) {
         if (!value) return true
         return data.label.indexOf(value) !== -1
-      },
-      append(data) {
-        const newChild = {
-          id: id++,
-          label: 'testtest',
-          children: []
-        }
-        if (!data.children) {
-          this.$set(data, 'children', [])
-        }
-        data.children.push(newChild)
-      },
-
-      remove(node, data) {
-        const parent = node.parent
-        const children = parent.data.children || parent.data
-        const index = children.findIndex(d => d.id === data.id)
-        children.splice(index, 1)
-      },
-
-      renderContent(h, {
-        node,
-        data,
-        store
-      }) {
-        return (
-          <span class='custom-tree-node'>
-            <span>{node.label}</span>
-            <span>
-              <el-button size='mini' type='text' on-click={ () => this.append(data) }>Append</el-button>
-              <el-button size='mini' type='text' on-click={ () => this.remove(node, data) }>Delete</el-button>
-            </span>
-          </span>)
       },
       // 当选择不同角色的时候 需要 展示不同角色权限
       handleChange() {
@@ -149,10 +112,6 @@
             type: 'warning'
           }).then(() => {
             this.updateRole({ 'id': this.activeRole, 'menu_id': JSON.stringify(checkedkeys) })
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
           }).catch(() => {
             this.$refs[this.activeRole][0].setCheckedKeys(old_menu)
             this.$message({
@@ -173,15 +132,7 @@
 
 
 
-<style>
-	.row-table{
-	    line-height: 48px;
-	   	color: #909399;
-	    cursor: pointer;
-	    border-bottom: 1px solid #ebeef5;
-	    font-size: 14px;
-	    font-weight: bold;
-	}
+<style scoped>
 	.del-font{
     font-size: 1rem;
 	}

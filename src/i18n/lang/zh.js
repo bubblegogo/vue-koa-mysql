@@ -38,6 +38,10 @@ export default {
     add: '新增',
     edit: '编辑',
     del: '删除'
+  },
+  menu: {
+    append: '新增',
+    delete: '删除'
   }
 
 }

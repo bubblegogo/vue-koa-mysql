@@ -44,21 +44,23 @@ class ArticleController{
     }
     // get page article list
     static async getArticleList(ctx){
-        console.log(ctx.request.body)
         const { id,current_page=1,page_size=20,typeid="",search=""} = ctx.request.body;
         let total=0;
         await Model.selectAllArt(id)
           .then(res =>{
           var resList = JSON.parse(JSON.stringify(res))
-
-          if(res.length){
-            total = res.length;
+          if(resList.length){
+            total = resList.length;
             let articleList = Model.selectAllArticle(id,typeid,search,current_page,page_size)
             return articleList
+          }else{
+            ctx.jsonReturn({
+              code:200,
+              message:'暂无数据'
+            })
           }
         })
         .then(articleList=>{
-
             var resList = JSON.parse(JSON.stringify(articleList))
             ctx.jsonReturn({
               code:200,
@@ -70,13 +72,13 @@ class ArticleController{
                   total:total,
                 }
               },
-              message:'ok'
+              message:'拉取数据成功'
             })
         })
        .catch(err=>{
          ctx.jsonReturn({
            code:1,
-           message:'暂无数据,服务器异常'
+           message:'拉取数据失败,服务器异常'
          })
        })
     }
@@ -86,31 +88,28 @@ class ArticleController{
         if(!id || isNaN(id)){
             ctx.jsonReturn({
                 code:1,
-                message:'id err'
+                message:'id error'
             })
         }
         await Model.selectArticleById(id)
             .then(res=>{
                 var resList = JSON.parse(JSON.stringify(res))
-
-                console.log(959595,resList)
                 if(resList.length){
                     ctx.jsonReturn({
                         code:200,
                         data:resList,
-                        message:'ok'
+                        message:'get message success'
                     })
                 }else{
                     ctx.jsonReturn({
-                        code:1,
-                        message:'err'
+                        code:200,
+                        message:'暂无数据'
                     })
                 }
-
             }).catch(err=>{
                 ctx.jsonReturn({
                     code:1,
-                    message:'err'
+                    message:'error'
                 })
             })
     }
@@ -192,7 +191,7 @@ class ArticleController{
         if(!id || isNaN(id)){
             ctx.jsonReturn({
                 code:1,
-                message:'id err'
+                message:'id error'
             })
         }
         await Model.delArticleById(id,status)

@@ -29,10 +29,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="created_at" label="Display_time" >
+      <el-table-column align="center" prop="created_at" :label="$t('user.createtime')" >
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span>{{scope.row.update_time | time_to_ymd}}</span>
+          <span>{{scope.row.createtime | time_to_ymd}}</span>
         </template>
       </el-table-column>
 

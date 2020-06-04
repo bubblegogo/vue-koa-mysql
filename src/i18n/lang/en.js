@@ -37,6 +37,10 @@ export default {
     add: 'Add',
     edit: 'Edit',
     del: 'Delete'
+  },
+  menu: {
+    append: 'Append',
+    delete: 'Delete'
   }
 
 }

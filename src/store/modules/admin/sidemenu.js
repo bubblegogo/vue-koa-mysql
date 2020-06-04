@@ -1,4 +1,4 @@
-import { feachlist, updaterole } from '@/api/role'
+import { feachlist, updaterole, updatemenu, deletemenu } from '@/api/role'
 
 const sidemenu = {
 
@@ -78,6 +78,26 @@ const sidemenu = {
             return item
           }))
           resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      }).catch((e) => {})
+    },
+    // 新增或更新菜单
+    addOrUpdateMenu({ commit, state, dispatch }, param) {
+      return new Promise((resolve, reject) => {
+        updatemenu(param).then((reponse) => {
+          dispatch('FeachList') // 获取最新的菜单列表
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      }).catch((e) => {})
+    },
+    deleteMenu({ commit, state }, id) {
+      return new Promise((resolve, reject) => {
+        deletemenu(id).then((reponse) => {
+          resolve(reponse)
         }).catch(error => {
           reject(error)
         })

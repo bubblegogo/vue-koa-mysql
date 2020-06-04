@@ -1,5 +1,5 @@
 /**
- * Created by jiachenpan on 16/11/18.
+ * Created by saisai on 19/10/10.
  */
 
 export function isvalidUsername(str) {

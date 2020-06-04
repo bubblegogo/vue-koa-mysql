@@ -21,11 +21,12 @@ router.beforeEach((to, from, next) => {
     } else {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetInfo').then(res => { // 拉取user_info
-          // note: roles must be a array! such as: ['editor','develop']
-          const roles = res.data[0]
-          store.dispatch('GenerateRoutes', {
-            roles
-          }).then(() => { // 根据roles权限生成可访问的路由表
+          // note: roles must be a array! such as: ['1','2']
+
+          /* const roles = res.data[0]
+             store.dispatch('GenerateRoutes', { roles })
+             */
+          store.dispatch('GenerateRouteSide').then(() => { // 根据roles权限生成可访问的路由表
             const addRouters = store.getters.addRouters
             if (addRouters.length) {
               router.addRoutes(addRouters) // 动态添加可访问路由表

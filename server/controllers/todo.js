@@ -16,7 +16,7 @@ class ToDoController{
     }).catch(err=>{
       ctx.jsonReturn({
         code:1,
-        message:'添加失败,服务器异常'
+        message:'获取待办事项失败'
       })
     })
   }
@@ -37,7 +37,7 @@ class ToDoController{
     }).catch(err => {
       ctx.jsonReturn({
         code:1,
-        message:'添加失败,服务器异常'
+        message:'删除待办事项失败'
       })
     })
   }
@@ -58,10 +58,9 @@ class ToDoController{
     }).catch(err => {
       ctx.jsonReturn({
         code:1,
-        message:'添加失败,服务器异常'
+        message:'更新待办事项失败'
       })
     })
   }
-
 }
 module.exports = ToDoController;

@@ -231,7 +231,7 @@ class FrontController{
                 var typeList = JSON.parse(JSON.stringify(typeRes))
                 return typeList
             })
-        await Model.homeTypeListModel()
+       await Model.homeTypeListModel()
             .then(res=>{
                 var selectInfoRes = JSON.parse(JSON.stringify(res))
                 if(selectInfoRes.length <= 0){
@@ -243,14 +243,6 @@ class FrontController{
                         message:'无数据'
                     })
                 }else{
-
-                    // [
-                    //     {
-                    //         type:'nodejs',
-                    //         list:[]
-                    //     }
-                    // ]
-
                     let newList = [];
                     typeListArr.forEach(type=>{
                         let itemArr = {type:type.type_name,list:[],typeid:type.id};

@@ -16,3 +16,23 @@ export function updaterole(params) {
     data: params
   })
 }
+
+// update menu
+export function updatemenu(params) {
+  return request({
+    url: '/user/menu_update',
+    method: 'post',
+    data: params
+  })
+}
+export function deletemenu(id) {
+  return request({
+    url: '/user/menu_delete',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+
+

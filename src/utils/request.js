@@ -66,15 +66,21 @@ service.interceptors.response.use(
       }
       return Promise.reject('error')
     } else {
+      if(response.data.message){
+        Message({
+          message: response.data.message,
+          type: 'success',
+          duration: 2 * 1000
+        })
+      }
       return response.data
     }
   },
   error => {
-    console.log('err' + error)// for debug
     Message({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 2 * 1000
     })
     return Promise.reject(error)
   }

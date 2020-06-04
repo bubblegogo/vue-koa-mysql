@@ -87,12 +87,6 @@
         }
         // if id == 0 add  else edit  表示新增文档 否则就是编辑文档
         this.SaveOrEditArticel(param)
-
-        this.$message({
-          message: '添加成功',
-          type: 'success',
-          duration: 2 * 1000
-        })
         this.goBack()
       },
       goBack() {
