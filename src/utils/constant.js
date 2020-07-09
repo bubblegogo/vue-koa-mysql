@@ -16,6 +16,12 @@ function article_type() {
   }, {
     value: 'javascript',
     label: 'JavaScript'
+  }, {
+    value: 'mysql',
+    label: 'Mysql'
+  }, {
+    value: 'js',
+    label: 'Js'
   }]
 }
 

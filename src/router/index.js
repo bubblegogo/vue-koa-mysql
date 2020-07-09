@@ -155,7 +155,11 @@ export const asyncRouterMap = [
   }
 ]
 export default new Router({
-  // mode: 'history', //后端支持可开
+  /* vue-router 默认 hash 模式
+     history 模式需要后端支持，如果遇到不支持的时候，需要设置 fallback 为 true，它会自动帮我们转成哈希去处理
+    mode: 'history',
+    fallback: true,*/
+
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
