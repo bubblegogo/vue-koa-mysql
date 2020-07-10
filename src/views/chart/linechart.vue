@@ -20,6 +20,7 @@ export default {
   },
   data() {
     return {
+      order: 2,
       lineChart: {
         tooltip: {
           trigger: 'axis',
@@ -81,11 +82,26 @@ export default {
             data: [220, 182, 191, 234, 290, 330, 310]
           }
 
-        ]
+          ]
+        }
+      }
+    },
+    computed:{
+      testComputed(){
+        console.log("i am computed")
+        return "computed"
+      }
+    },
+    created(){
+      console.log("i am created");
+      this.testMethods();
+    },
+    methods:{
+      testMethods(){
+        console.log("i am methods");
       }
     }
   }
-}
 </script>
 
 <style scoped>

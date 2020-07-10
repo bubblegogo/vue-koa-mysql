@@ -127,9 +127,6 @@
         autoComplete: {}
       }
     },
-    created() {
-      this.feachToDoList()
-    },
     computed: {
       ...mapGetters([
         'obj',
@@ -137,12 +134,15 @@
         'todolist'
       ])
     },
+    created() {
+      this.feachToDoList()
+    },
+
     methods: {
       ...mapActions(['feachToDoList', 'delToDoById', 'updateToDoById']),
       HandleClick(row) {
         this.delToDoById({ 'id': row.id, 'status': +!row.status, 'user_id': this.$store.state.user.obj.id })
       },
-
       HandleEdit(id) {
         Object.keys(this.autoComplete).forEach(item => {
           if (item !== id) {

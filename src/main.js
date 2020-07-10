@@ -21,10 +21,10 @@ Vue.config.productionTip = false
 
 import '@/filter' // 引入全局过滤器
 new Vue({
-  el: '#app', //提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。
+  el: '#app', // 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。
   i18n,
   router,
   store,
-  template: '<App/>', //一个字符串模板作为 Vue 实例的标识使用。模板将会替换挂载的元素。挂载元素的内容都将被忽略，除非模板的内容有分发插槽
+  template: '<App/>', // 一个字符串模板作为 Vue 实例的标识使用。模板将会替换挂载的元素。挂载元素的内容都将被忽略，除非模板的内容有分发插槽
   components: { App } // 引入组件
 })

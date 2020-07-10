@@ -33,22 +33,20 @@
   import { mapGetters, mapActions } from 'vuex'
   export default {
     props: ['id'],
-    created: function() {
-      this.FeachArticleDetail(this.id)
-    },
     data() {
       return {
         formLabelWidth: '110px'
       }
     },
-
     computed: {
       ...mapGetters(['articledetail']),
       fileList() {
         return this.articledetail.filesrc ? JSON.parse(this.articledetail.filesrc) : []
       }
     },
-
+    created: function() {
+      this.FeachArticleDetail(this.id)
+    },
     methods: {
       ...mapActions(['FeachArticleDetail'])
     }

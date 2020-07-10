@@ -1,10 +1,8 @@
 <template>
   <div :style="{height:height,width:width}" v-loading="isLoading" >
-
     <div  :id="randomId" :class="className" :style="{height:height,width:width,visibility:isChartVisible ? 'visible' : 'hidden'}" />
   </div>
 </template>
-
 <script>
 import echarts from 'echarts'
 import resize from './resize/index'
@@ -30,15 +28,6 @@ export default {
       required: true
     }
   },
-  watch: {
-    chartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val)
-      }
-    }
-  },
-
   data() {
     return {
       chart: null,
@@ -46,11 +35,6 @@ export default {
       isOption: false,
       randomId: 'echarts-dom' + Date.now() + Math.random()
     }
-  },
-  mounted() {
-    // this.$nextTick(()=>{
-    this.initChart()
-    // })
   },
   computed: {
     isChartVisible() {
@@ -60,12 +44,10 @@ export default {
       return !this.isLoading && !this.isOption
     }
   },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
+  mounted() {
+    // this.$nextTick(()=>{
+    this.initChart()
+    // })
   },
   methods: {
     initChart() {
@@ -77,7 +59,23 @@ export default {
       // 初始化图表
       this.chart.setOption(option)
     }
+  },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val)
+      }
+    }
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
   }
+
 }
 </script>
 

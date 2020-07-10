@@ -30,14 +30,6 @@
   import { mapGetters, mapActions } from 'vuex'
   export default {
     props: ['id'],
-    created: function() {
-      console.log(this.id)
-      if (this.id === 0) {
-        this.$store.commit('SET_USER_DETAIL', {})
-      } else {
-        this.FeachUserDetail(this.id)
-      }
-    },
     data() {
       return {
         formLabelWidth: '110px'
@@ -45,6 +37,14 @@
     },
     computed: {
       ...mapGetters(['userdetail'])
+    },
+    created: function() {
+      console.log(this.id)
+      if (this.id === 0) {
+        this.$store.commit('SET_USER_DETAIL', {})
+      } else {
+        this.FeachUserDetail(this.id)
+      }
     },
     methods: {
       ...mapActions(['FeachUserDetail']),

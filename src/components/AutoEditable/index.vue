@@ -3,51 +3,51 @@
 </template>
 
 <script>
-    export default {
-      name: 'autoEditable',
-      props: {
-        id: {
-          type: Number,
-          default: 0
-        },
-        status: {
-          type: Boolean,
-          default: false
-        },
-        value: {
-          type: String,
-          default: ''
-        },
-        autoeditable: {
-          type: Boolean,
-          default: false
-        }
-      },
-      data() {
-        return {}
-      },
-      methods: {
-        blurClick() {
-          if (this.$el.innerHTML.trim() !== this.value.trim()) {
-            this.$emit('input', { 'id': this.id, 'content': this.$el.innerHTML })
-          }
-        }
-      },
-      watch: {
-        autoeditable(newval) { // 由于监听数值的时候 需要操作dom 元素 所以需要 $nextTick
-          this.$nextTick(function() {
-            if (newval) {
-              this.$el.focus() // 把光标移动到 最后一个位置
-              var range = window.getSelection() // 创建range
-              range.selectAllChildren(this.$el) // range 选择obj下所有子内容
-              range.collapseToEnd()
-            } else {
-              this.$el.blur() // 把光标移动到 最后一个位
-            }
-          })
-        }
+export default {
+  name: 'autoEditable',
+  props: {
+    id: {
+      type: Number,
+      default: 0
+    },
+    status: {
+      type: Boolean,
+      default: false
+    },
+    value: {
+      type: String,
+      default: ''
+    },
+    autoeditable: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {}
+  },
+  methods: {
+    blurClick() {
+      if (this.$el.innerHTML.trim() !== this.value.trim()) {
+        this.$emit('input', { 'id': this.id, 'content': this.$el.innerHTML })
       }
     }
+  },
+  watch: {
+    autoeditable(newval) { // 由于监听数值的时候 需要操作dom 元素 所以需要 $nextTick
+      this.$nextTick(function() {
+        if (newval) {
+          this.$el.focus() // 把光标移动到 最后一个位置
+          var range = window.getSelection() // 创建range
+          range.selectAllChildren(this.$el) // range 选择obj下所有子内容
+          range.collapseToEnd()
+        } else {
+          this.$el.blur() // 把光标移动到 最后一个位
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>

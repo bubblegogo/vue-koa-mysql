@@ -59,13 +59,7 @@
   import { mapGetters, mapActions } from 'vuex'
   export default {
     props: ['id'],
-    created: function() {
-      if (this.id === 0) {
-        this.$store.commit('SET_ARTICLE_DETAIL', {})
-      } else {
-        this.FeachArticleDetail(this.id)
-      }
-    },
+
     data() {
       return {
         formLabelWidth: '110px',
@@ -76,6 +70,13 @@
       ...mapGetters(['articledetail']),
       fileList() {
         return this.articledetail.filesrc ? JSON.parse(this.articledetail.filesrc) : []
+      }
+    },
+    created: function() {
+      if (this.id === 0) {
+        this.$store.commit('SET_ARTICLE_DETAIL', {})
+      } else {
+        this.FeachArticleDetail(this.id)
       }
     },
     methods: {

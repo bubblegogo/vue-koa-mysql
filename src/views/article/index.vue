@@ -84,7 +84,6 @@
   import { article_type } from '@/utils/constant'
   import { mapGetters, mapActions } from 'vuex'
   import { timeStampToYMd } from '@/utils/date'
-
   export default {
     components: {
     },
@@ -97,30 +96,13 @@
         inputval: ''
       }
     },
-    filters: {
-      // 内容过长进行隐藏
-      hiddenContent(content) {
-        let str = ''
-        if (content.length > 20) {
-          str = content.substr(0, 20) + '...'
-        } else {
-          str = content
-        }
-        return str
-      },
-      timeFormat(timestr) {
-        return timeStampToYMd(timestr)
-      }
+    computed: {
+      ...mapGetters(['articlelist', 'pageobj'])
     },
-
     created() {
       // 获取用户列表
       this.FeachArticleList(this.feachParam())
     },
-    computed: {
-      ...mapGetters(['articlelist', 'pageobj'])
-    },
-
     methods: {
       ...mapActions(['FeachArticleList', 'DelArticle', 'setCurrentPage', 'setPageSize']),
       // 编辑与添加新用户
@@ -155,8 +137,23 @@
         this.setCurrentPage(val)
         this.FeachArticleList(this.feachParam())
       }
+    },
+    filters: {
+      // 内容过长进行隐藏
+      hiddenContent(content) {
+        let str = ''
+        if (content.length > 20) {
+          str = content.substr(0, 20) + '...'
+        } else {
+          str = content
+        }
+        return str
+      },
+      timeFormat(timestr) {
+        return timeStampToYMd(timestr)
+      }
+    },
 
-    }
   }
 </script>
 

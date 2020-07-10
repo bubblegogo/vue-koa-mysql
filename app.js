@@ -27,7 +27,7 @@ app.use(async (ctx, next)=>{
 	const start = new Date;
 	const result = await routes_obj.verify(ctx);
 	if(typeof result === "object"){
-        ctx.state.userInfo = result;//存储用户信息
+        ctx.state.userInfo = result;// 存储用户信息
 		await next();
 	}else{
 		writeLog('【' + result + '】');

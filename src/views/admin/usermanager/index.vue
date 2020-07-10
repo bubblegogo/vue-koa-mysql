@@ -75,31 +75,13 @@
         listLoading: false
       }
     },
-    filters: {
-      // 用户状态过滤器
-      statusFilter(status) {
-        const statusMap = {
-          '0': 'danger', // 注销
-          '1': 'success', // 成功
-          '2': 'gray' // 关闭
-        }
-        return statusMap[status]
-      },
-      // 用户角色过滤
-      rolesFilter(roles) {
-        return roles === 1 ? 'administrator' : 'user'
-      }
+    computed: {
+      ...mapGetters(['roles', 'userlist', 'pageobj'])
     },
-
     created() {
       // 获取用户列表
       this.FeachUserList()
     },
-
-    computed: {
-      ...mapGetters(['roles', 'userlist', 'pageobj'])
-    },
-
     methods: {
       ...mapActions(['FeachUserList', 'SaveUser', 'DelUser', 'setCurrentPage', 'setPageSize']),
       // 编辑与添加新用户
@@ -118,7 +100,23 @@
         this.FeachUserList()
       }
 
+    },
+    filters: {
+      // 用户状态过滤器
+      statusFilter(status) {
+        const statusMap = {
+          '0': 'danger', // 注销
+          '1': 'success', // 成功
+          '2': 'gray' // 关闭
+        }
+        return statusMap[status]
+      },
+      // 用户角色过滤
+      rolesFilter(roles) {
+        return roles === 1 ? 'administrator' : 'user'
+      }
     }
+
   }
 </script>
 

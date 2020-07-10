@@ -11,18 +11,13 @@
 
 <script>
 export default {
-  created() {
-    this.getBreadcrumb()
-  },
   data() {
     return {
       levelList: null
     }
   },
-  watch: {
-    $route() {
-      this.getBreadcrumb()
-    }
+  created() {
+    this.getBreadcrumb()
   },
   methods: {
     getBreadcrumb() {
@@ -32,6 +27,11 @@ export default {
         matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
       }
       this.levelList = matched
+    }
+  },
+  watch: {
+    $route() {
+      this.getBreadcrumb()
     }
   }
 }

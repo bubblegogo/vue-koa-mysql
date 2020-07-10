@@ -40,21 +40,6 @@
 <script>
   import { mapGetters, mapActions } from 'vuex'
   export default {
-    created() {
-      // 在获取个人用户信息中已经请求过所有菜单列表
-      // this.FeachList()
-    },
-    mounted() {
-      console.log('mounted mountedmountedmounted')
-    },
-    computed: {
-      ...mapGetters([
-        'roles',
-        'menulist',
-        'rolelist',
-        'treemenu'
-      ])
-    },
     data() {
       return {
         filterText: '',
@@ -67,7 +52,21 @@
         }
       }
     },
-
+    computed: {
+      ...mapGetters([
+        'roles',
+        'menulist',
+        'rolelist',
+        'treemenu'
+      ])
+    },
+    created() {
+      // 在获取个人用户信息中已经请求过所有菜单列表
+      // this.FeachList()
+    },
+    mounted() {
+      console.log('mounted mountedmountedmounted')
+    },
     methods: {
       ...mapActions(['FeachList', 'updateRole']),
       filterNode(value, data) {

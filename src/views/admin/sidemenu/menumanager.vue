@@ -1,13 +1,10 @@
 <template>
   <div class="app-container">
-
-
     <div class="block">
       <p> 项目菜单管理 </p>
       <el-tree :data="treemenu" :props="defaultProps" node-key="id" default-expand-all :expand-on-click-node="false" :render-content="renderContent">
       </el-tree>
     </div>
-
 
     <el-dialog title="新增导航" :visible.sync="formVisible">
       <el-form :model="form" :rules = "rules" ref="ruleForm">
@@ -84,6 +81,17 @@
           ],
         }
       }
+    },
+    computed: {
+      ...mapGetters([
+        'treemenu'
+      ])
+    },
+    created() {
+      directoryVue()
+    },
+    mounted() {
+      console.log('mounted')
     },
     methods: {
       ...mapActions(['addOrUpdateMenu', 'deleteMenu', 'FeachList']),
