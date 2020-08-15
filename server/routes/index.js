@@ -9,6 +9,7 @@ const Front = require('../controllers/front.js')
 const File = require('../controllers/file.js');
 const ToDo = require('../controllers/todo.js');
 const Logger = require('../controllers/logger.js');
+const Ncp = require('../controllers/ncp.js');
 //使用 koa-body 代替 koa-bodyparser koa-multer
 /*
 const multer = require('koa-multer');//加载koa-multer模块
@@ -91,8 +92,20 @@ router.post('/todo/up_todo_byid',checkToken,ToDo.upTodoById)
 
 //文件上传至 服务器
 router.post('/file/upload',File.fileupload)
+//文件hash验证
+router.post('/file/check',File.filecheck)
 
 
+//文件切片上传
+router.post('/file/sliceupload',File.filesliceupload)
+//文件合并请求
+router.post('/file/merge',File.filemerge)
+
+
+// codv 从开始到至今 所有数据获取
+router.post('/codv/home/get_list',Ncp.getHomeList)
+// 获取中国 当天的数据展示
+router.post('/codv/country/get_list',Ncp.getCountryList)
 
 //添加栏目
 router.post('/add_type',checkToken,Type.createType)
@@ -102,6 +115,8 @@ router.post('/type_all',checkToken,Type.selectTypeAll)
 router.post('/del_type',checkToken,Type.delectTypeById);
 //修改栏目
 router.post('/edit_type',checkToken,Type.editTypeById);
+
+
 
 //文章状态
 router.post('/update_state',checkToken,Article.updateState)

@@ -1,14 +1,17 @@
 <template>
   <div :style="{height:height,width:width}" v-loading="isLoading" >
-    <div  :id="randomId" :class="className" :style="{height:height,width:width,visibility:isChartVisible ? 'visible' : 'hidden'}" />
+    <div :id="randomId" :class="className" :style="{height:height,width:width,visibility:isChartVisible ? 'visible' : 'hidden'}" />
   </div>
 </template>
+
 <script>
+
 import echarts from 'echarts'
+import 'echarts/map/js/china.js'
 import resize from './resize/index'
 require('echarts/theme/macarons') // echarts theme
 export default {
-  name: 'lineChart',
+  name: 'chinaMap',
   mixins: [resize],
   props: {
     className: {
@@ -28,6 +31,7 @@ export default {
       required: true
     }
   },
+
   data() {
     return {
       chart: null,
@@ -44,6 +48,7 @@ export default {
       return !this.isLoading && !this.isOption
     }
   },
+
   mounted() {
     // this.$nextTick(()=>{
     this.initChart()
@@ -52,11 +57,16 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(document.getElementById(this.randomId), 'macarons')
-      this.setOptions(this.chartData)
+      setTimeout(() => { // 用于延迟加载地图初始化
+        this.setOptions(this.chartData)
+      },500)
     },
     setOptions(option) {
       // 初始化图表
       this.chart.setOption(option)
+      this.chart.on('dblclick', (param) => {
+        this.$emit('eventmapclick',param.name)
+      })
     }
   },
   watch: {
@@ -74,11 +84,5 @@ export default {
     this.chart.dispose()
     this.chart = null
   }
-
 }
 </script>
-
-<style scoped>
-
-
-</style>

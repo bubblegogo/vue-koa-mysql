@@ -19,7 +19,7 @@
         <el-input v-model="articledetail.title" auto-complete="off" ></el-input>
       </el-form-item>
       <el-form-item :label="$t('article.content')" :label-width="formLabelWidth">
-        <el-input v-model="articledetail.content" type ="textarea" auto-complete="off"></el-input>
+        <el-input v-model="articledetail.content"  type ="textarea" auto-complete="off"></el-input>
       </el-form-item>
 
       <el-form-item :label="$t('article.description')" :label-width="formLabelWidth">

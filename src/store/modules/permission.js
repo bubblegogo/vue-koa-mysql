@@ -38,7 +38,7 @@ function filterAsyncRouter(asyncRouterMap, roles) {
 function asyncRouterLoader(asyncRouterMap) {
   const asyncRouters = asyncRouterMap.filter(route => {
     if (route.component) {
-      if (route.meta != "" && route.meta) route.meta = JSON.parse(route.meta)
+      if (route.meta != '' && route.meta) route.meta = JSON.parse(route.meta)
       if (route.hidden) route.props = (route) => ({ id: route.query.id })
       if (route.component === 'Layout') {
         route.component = Layout

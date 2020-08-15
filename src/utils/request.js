@@ -66,7 +66,7 @@ service.interceptors.response.use(
       }
       return Promise.reject('error')
     } else {
-      if(response.data.message){
+      if (response.data.message) {
         Message({
           message: response.data.message,
           type: 'success',

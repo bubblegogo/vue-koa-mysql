@@ -42,6 +42,16 @@ export default {
   menu: {
     append: '新增',
     delete: '删除'
+  },
+  // 新型冠状病毒 字段解析
+  codv: {
+    sure_cnt: '累积确诊人数',
+    cure_cnt: '累计治愈总人数',
+    doubt_cnt: '现有疑似病例',
+    die_cnt: '累计死亡人数',
+    inc_sure: '当天新增病例',
+    inc_cure: '当天新增治愈',
+    inc_die: '当天新增死亡'
   }
 
 }

@@ -86,21 +86,21 @@ export default {
         }
       }
     },
-    computed:{
-      testComputed(){
-        console.log("i am computed")
-        return "computed"
-      }
-    },
-    created(){
-      console.log("i am created");
-      this.testMethods();
-    },
-    methods:{
-      testMethods(){
-        console.log("i am methods");
-      }
+  computed: {
+    testComputed() {
+      console.log('i am computed')
+      return 'computed'
     }
+  },
+  created() {
+    console.log('i am created')
+    this.testMethods()
+  },
+  methods:{
+    testMethods() {
+      console.log('i am methods')
+    }
+  }
   }
 </script>
 

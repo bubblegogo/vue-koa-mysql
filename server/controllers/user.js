@@ -244,6 +244,8 @@ class UserController{
         const meta_str = {title:name, icon:"example",role: [id]}
 
         let addid = Model.updatemenu("'"+JSON.stringify(meta_str)+"'",id)
+
+        // 给超级管理员 自动加上改角色属性值 waiting develop
         return JSON.stringify(addid)
       })
       .then(addid => {

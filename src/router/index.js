@@ -96,16 +96,10 @@ export const asyncRouterMap = [
   {
     path: '/example',
     component: Layout,
-    redirect: '/example/table',
+    redirect: '/example/tree',
     name: 'Example',
     meta: { title: 'Example', icon: 'example', role: [3] },
     children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table', role: [31] }
-      },
       {
         path: 'tree',
         name: 'Tree',

@@ -161,15 +161,15 @@ let selectAllArticle = function(id,typeid,search,current_page,page_size){
     _sql += `and a.title like "%${search}%" `
   }
 
-  _sql += ` limit ${page.st_num}, ${page.ed_num} `
+  _sql += ` order by id desc  limit ${page.st_num}, ${page.ed_num} `
   return query(_sql)
 }
 let selectAllArt = function(id,current_page,page_size){
   let _sql = ''
   if(id == 1){
-    _sql = `select * from article where status = 1 `;
+    _sql = `select * from article where status = 1 order by id desc `;
   }else{
-    _sql = `select * from article where status = 1 and user_id = "${id}" `;
+    _sql = `select * from article where status = 1 and user_id = "${id}"  order by id desc `;
   }
   return query(_sql)
 }
@@ -201,7 +201,7 @@ let delArticleById = function(id,status){
 
 // feach todo list
 let selectAllTodo = function(id){
-  let _sql = `select id,user_id,status,content from todo where user_id = "${id}" order by create_time desc limit 20 `;
+  let _sql = `select id,user_id,status,content from todo where user_id = "${id}" order by id desc limit 20 `;
   return query(_sql);
 }
 // del todo by id
@@ -219,6 +219,27 @@ let addlogger = function(value){
   let _sql  = "insert into sys_log (ip,user,url,time) values(?,?,?,?)";
   return query(_sql,value)
 }
+
+// 新冠状数据查询
+let getHomeAllNcp = function(child_statistic){
+  let _sql = `select * from codv_acc_byday where child_statistic = "${child_statistic}" `;
+  return query(_sql);
+}
+
+let getMaxTime = function(){
+  let _sql = `select max(time) as time from codv_china_province`;
+  return query(_sql);
+}
+
+let getCountryAllNcp = function(time,area){
+
+  let _sql = `select child_statistic,total_confirmed,inc_province,parent_name from codv_china_province where time = "${time}"  `;
+
+  return query(_sql);
+}
+
+
+
 /*
 //查询栏目下的文章是否存在
 let selectTitleById = function(title,type){
@@ -373,7 +394,12 @@ module.exports = {
     upTodoById,
 
     // 新增日志记录
-    addlogger
+    addlogger,
+
+    // 新冠状数据获取
+    getHomeAllNcp,
+    getMaxTime,
+    getCountryAllNcp
 
     /*
     addTypeModel,
@@ -383,10 +409,7 @@ module.exports = {
     editTypeByIdModel,
     selectTitleById,
 
-
-
     updateArticleStateModel,
-
     selectArticleByTypeIdModel,
     selectArticleByTypeHotModel,
     articleRecommendModel,

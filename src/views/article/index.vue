@@ -152,8 +152,7 @@
       timeFormat(timestr) {
         return timeStampToYMd(timestr)
       }
-    },
-
+    }
   }
 </script>
 

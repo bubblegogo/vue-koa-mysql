@@ -23,7 +23,6 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `sort_id` int(10) unsigned DEFAULT '0' COMMENT '分类ID',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '文章标题',
   `description` varchar(255) DEFAULT '' COMMENT '文章描述',
@@ -36,7 +35,7 @@ CREATE TABLE `article` (
   `status` char(1) NOT NULL DEFAULT '1' COMMENT '0 代表删除 1 代表正常',
   `typeid` varchar(255) DEFAULT NULL COMMENT '文章类型，目前有 vue react css javascript java linux node ….',
   PRIMARY KEY (`id`),
-  KEY `sort_id` (`sort_id`) USING BTREE,
+  KEY `typeid` (`typeid`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='文章数据库表';
 
@@ -146,3 +145,65 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户据库表';
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- 增加新型冠状病毒数据表
+-- ----------------------------
+-- Table structure for codv_acc_byday
+-- ----------------------------
+DROP TABLE IF EXISTS `codv_acc_byday`;
+CREATE TABLE `codv_acc_byday` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `day` varchar(50) NOT NULL COMMENT '当天时间',
+  `sure_cnt` int(11) NOT NULL DEFAULT '0' COMMENT '累计确诊人数',
+  `cure_cnt` int(11) NOT NULL DEFAULT '0' COMMENT '累计治愈总人数',
+  `doubt_cnt` int(11) DEFAULT '0' COMMENT '现有疑似病例',
+  `die_cnt` int(11) NOT NULL DEFAULT '0' COMMENT '累计死亡人数',
+  `inc_sure` int(11) DEFAULT '0' COMMENT '当天新增病例',
+  `inc_cure` int(11) DEFAULT '0' COMMENT '当天新增治愈',
+  `inc_die` int(11) DEFAULT '0' COMMENT '当天新增死亡',
+  `child_statistic` varchar(50) DEFAULT NULL COMMENT '具体国家详情',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_child_statistic` (`child_statistic`)
+) ENGINE=InnoDB AUTO_INCREMENT=2238 DEFAULT CHARSET=utf8
+
+-- ----------------------------
+-- Table structure for codv_china_province
+-- ----------------------------
+CREATE TABLE `codv_china_province` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `current_confirm` int(11) DEFAULT NULL COMMENT '现有确诊人数',
+  `total_confirmed` int(11) DEFAULT NULL COMMENT '累计确诊人数',
+  `total_cured` int(11) DEFAULT NULL COMMENT '累计治愈人数',
+  `total_death` int(11) DEFAULT NULL COMMENT '累计死亡人数',
+  `child_statistic` varchar(50) DEFAULT NULL COMMENT '地区/国家名称',
+  `time` varchar(50) DEFAULT NULL COMMENT '当前时间',
+  `total_doubtful` int(11) DEFAULT NULL COMMENT '现有疑似病例',
+  `total_increase` int(11) DEFAULT NULL COMMENT '本土新增人数',
+  `parent_name` varchar(50) DEFAULT NULL COMMENT '上级名称',
+  `last_inc_data` varchar(255) DEFAULT NULL COMMENT '与前一天数进行比较增值',
+  `inc_province` varchar(255) DEFAULT NULL COMMENT '与last_inc_data 功能相似,有新增还是减少标识符',
+  PRIMARY KEY (`id`),
+  KEY `idx_time` (`time`(10))
+) ENGINE=InnoDB AUTO_INCREMENT=24107 DEFAULT CHARSET=utf8
+
+
+-- ----------------------------
+-- Table structure for codv_country
+-- ----------------------------
+CREATE TABLE `codv_country` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `current_confirm` int(11) DEFAULT NULL COMMENT '现有确诊人数',
+  `total_confirmed` int(11) DEFAULT NULL COMMENT '累计确诊人数',
+  `total_cured` int(11) DEFAULT NULL COMMENT '累计治愈人数',
+  `total_death` int(11) DEFAULT NULL COMMENT '累计死亡人数',
+  `child_statistic` varchar(50) DEFAULT NULL COMMENT '地区/国家名称',
+  `time` varchar(50) DEFAULT NULL COMMENT '当前时间',
+  `total_doubtful` int(11) DEFAULT NULL COMMENT '现有疑似病例',
+  `total_increase` int(11) DEFAULT NULL COMMENT '本土新增人数',
+  `iso_code` varchar(255) DEFAULT NULL COMMENT 'isoCode',
+  `map_code` varchar(255) DEFAULT NULL COMMENT 'map_code',
+  `parent_name` varchar(50) DEFAULT NULL COMMENT '上一级名称',
+  `last_inc_data` varchar(255) DEFAULT NULL COMMENT '与昨日对比',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10341 DEFAULT CHARSET=utf8

@@ -1,0 +1,45 @@
+
+
+
+
+http://tvmonitor-qa.cn.miaozhen.com/dtv/login?access_token=2.DVIerD8VrYnVVRoHcHJvamVjdCIKbXotbW9uaXRvcjICAgo.MCwCFBY1xf0EQIS_8t_Fg5JmWrCQ60s-AhQOGCAPtEytx5Lu8TwvRPUTNwNJpw&userId=637&userName=project
+
+http://tvmonitor-qa.cn.miaozhen.com/salt/pushsalt?salt=salt1&saltVersion=saltVersion
+
+
+服务器跳板机 登陆 ssh dusaisai@123.137.192.33 
+
+文件上传有问题，使用   http://portal.admaster.co/task/#/file/space  shield的文件中转 wget 内部下载
+
+
+手动删除 campaigned 对应的表 st_monitor_campaign_tv
+
+
+程分支名x
+
+
+
+
+4020445
+
+
+
+
+
+
+
+QA 上部署网址。
+https://ci.mzsvn.com/job/Admonitor-Web/job/tv-monitor-qa/
+
+
+
+http://api-tvmonitor-qa.cn.miaozhen.com
+
+
+
+
+
+提供 API 接口，用于小米不定期推送新增的小米电视尺寸信息
+
+
+
